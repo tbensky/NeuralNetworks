@@ -23,7 +23,7 @@ To the mathematically inclined, there are a lot of interesting patterns and logi
 ```python
 {
     "desc": desc,
-"z":0.0,                            #input
+    "z":0.0,                        #input
     "a": 0.0,                       #activation
     "b": self.init_neuron_bias,     #bias
     "w": wlist,                     #weights
@@ -36,6 +36,8 @@ To the mathematically inclined, there are a lot of interesting patterns and logi
 Here, each neuron has the following internals:
 
 * `desc` a description. This is for convenience and is a text string like `I0` meaning the first neuron in the input layer.
+
+* `z` is the neuron's input, which is the weighted sum of all activations from the previous layer, into this neuron.
 
 * `a` is the neuron's activation, of $a=f(z)$, where $f$ is the activation function (sigmoid, ReLU, etc).
 
@@ -85,3 +87,16 @@ pairs = [
 
 You can also uncommment the block of code that loads in training pairs from a file called `training_pairs.json`.  This is a valid ``json`` structure of a list of list of `[input],[output]` training pairs.  The current `training_pairs.json` file contains 100 random digits from the MNIST training set.
 
+You can see that this  model is run using a simple API which you can see is
+
+```python
+nn = neural_net.neural_net(
+            input_neuron_count=4,
+            output_neuron_count=3,
+            hidden_neuron_count=[3,4],
+            learning_rate=2,
+            init_neuron_bias=0.01
+            )
+```
+
+It allows you to configure any arbitray depths and length ANN that you desire.  The `hidden_neuron_count` is a list of the number of neurons you want in each hidden layer.  So `[3,4]` means you want 2 hidden layers, the first with 3 neurons and thee next with 4 neurons.
