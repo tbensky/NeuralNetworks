@@ -10,6 +10,8 @@ Acryonyms:
 
 Note: This readme is really only a short summary of all of the details I captured in [bp.pdf](https://github.com/tbensky/NeuralNetworks/blob/main/Backprop_derive/bp.pdf).
 
+## Repo contents
+
 Here's what you'll find in this repo:
 
 * `Backprop_derive` The first thing I did was to go through all of the mathematics behind backpropagation.  I started with very first principles using only the structure of a fully interconnected ANN and the chain-rule from Calculus.  Look for a file called [bp.pdf](https://github.com/tbensky/NeuralNetworks/blob/main/Backprop_derive/bp.pdf) as the latest LaTex build of what I found. 
@@ -18,7 +20,9 @@ To the mathematically inclined, there are a lot of interesting patterns and logi
 
 * `ANN` This is a kind of messy collection of files developed as I was getting going. Ignore this folder.
 
-* `ANNLoops`  A dense-layer, neural network written with for-loops. This means a clumsy and slow model, but very instructive. For example, each neuron is treated as an entity (here a Python dictionary) as follows:
+# ANNLoops
+
+This is a dense-layer, neural network written with for-loops. This means a clumsy and slow model, but very instructive. For example, each neuron is treated as an entity (here a Python dictionary) as follows:
 
 ```python
 {
@@ -87,7 +91,8 @@ pairs = [
 
 You can also uncommment the block of code that loads in training pairs from a file called `training_pairs.json`.  This is a valid ``json`` structure of a list of list of `[input],[output]` training pairs.  The current `training_pairs.json` file contains 100 random digits from the MNIST training set.
 
-You can see that this  model is run using a simple API which you can see is
+## API
+You can see that this  model is run using a simple API (in `neural_net.py`') which you can see is
 
 ```python
 nn = neural_net.neural_net(
@@ -100,3 +105,32 @@ nn = neural_net.neural_net(
 ```
 
 It allows you to configure any arbitray depths and length ANN that you desire.  The `hidden_neuron_count` is a list of the number of neurons you want in each hidden layer.  So `[3,4]` means you want 2 hidden layers, the first with 3 neurons and thee next with 4 neurons.
+
+## Running the ANN
+
+Training the ANN follows some logic, as shown by this code
+
+```python
+while True:
+    #clear the gradients (dw lists)
+    nn.clear_dw()
+    L = 0
+
+    #send in input/output pairs and track needed weight changes
+    for (input,output) in pairs:
+        out = nn.forward(input)
+        L = L + 0.5 * sum([(out[i] - output[i])**2 for i in range(len(output))])
+        nn.backward(output)
+    
+    #now, actually adjust the weights and biases
+    nn.adjust_network(len(pairs))
+
+    #information output
+    if epoch == 0 or epoch % 1000 == 0:
+        print(f"epoch={epoch:,}, loss={L}")
+
+    if L < EPS:
+        break;
+    
+    epoch = epoch + 1
+```
