@@ -134,3 +134,11 @@ while True:
     
     epoch = epoch + 1
 ```
+
+# ANNMatrices
+
+In this code the ANN is now thought of not in terms of discrete neurons, but in terms of transforming the input vector into an output vector using matrix multiplications and `NumPy`. Thus all for-loops were removes (as much as possible), in favor of matrix multiplications.
+
+This was also a fun mathematical exercise in matrices and vector reshaping, with details all captured in [bp.pdf](https://github.com/tbensky/NeuralNetworks/blob/main/Backprop_derive/bp.pdf). 
+
+The code and API is identical to the `ANNLoops` code.
