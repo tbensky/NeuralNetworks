@@ -1,11 +1,13 @@
 # Introduction
 
-This repo contains work the author did in an effort to learn about artififical neural networks (ANNs) during the early months of 2024. I didn't want to just jump in and start with PyTorch, as I wanted to understand the inner workings and structure of neural networks, including the backpropagation algorithm.
+This repo contains work the author did in an effort to learn about artififical neural networks (ANNs) during the early months of 2024. I didn't want to just jump in and start with PyTorch, as I wanted to understand the inner workings and structure of neural networks, including how the backpropagation algorithm works.
 
 Here's what's here:
 
 
-* `Backprop_derive` The first thing I did was to go through all of the mathematics behind backpropagation.  I started with very first principles using only the structure of a fully interconnected ANN and the chain-rule from Calculus.  
+* `Backprop_derive` The first thing I did was to go through all of the mathematics behind backpropagation.  I started with very first principles using only the structure of a fully interconnected ANN and the chain-rule from Calculus.  Look for a file called `bp.pdf` as the latest LaTex build of what I found. To the mathematically inclined, there are a lot of interesting patterns and logic in deriving all of the backpropagation formulas. It's kind of a fun mathematical exercise.
+
+This readme is really only a short summary of all of the details I captured in [bp.pdf](https://github.com/tbensky/NeuralNetworks/blob/main/Backprop_derive/bp.pdf).
 
 * `ANNLoops`  A dense-layer, neural network written with for-loops. This means a clumsy and slow model, but very instructive. For example, each neuron is treated as an entity (here a Python dictionary) as follows:
 
