@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2023.11.10)  26 FEB 2024 20:41
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2023.11.10)  6 MAR 2024 15:48
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -363,7 +363,7 @@ Overfull \hbox (2.74242pt too wide) in paragraph at lines 24--25
 (/usr/local/texlive/2023/texmf-dist/tex/latex/listings/lstlang1.sty
 File: lstlang1.sty 2023/02/27 1.9 listings language file
 ) [2]
-<Figs/nn_fig.png, id=146, 1502.61375pt x 1061.9675pt>
+<Figs/nn_fig.png, id=151, 1502.61375pt x 1061.9675pt>
 File: Figs/nn_fig.png Graphic file (type png)
 <use Figs/nn_fig.png>
 Package pdftex.def Info: Figs/nn_fig.png  used on input line 76.
@@ -374,7 +374,7 @@ Package pdftex.def Info: Figs/nn_fig.png  used on input line 76.
 LaTeX Font Info:    Font shape `OT1/cmtt/bx/n' in size <10.95> not available
 (Font)              Font shape `OT1/cmtt/m/n' tried instead on input line 135.
  [5]
-<Figs/wxy_change.png, id=194, 1231.60126pt x 1092.08pt>
+<Figs/wxy_change.png, id=197, 1231.60126pt x 1092.08pt>
 File: Figs/wxy_change.png Graphic file (type png)
 <use Figs/wxy_change.png>
 Package pdftex.def Info: Figs/wxy_change.png  used on input line 203.
@@ -383,89 +383,102 @@ Package pdftex.def Info: Figs/wxy_change.png  used on input line 203.
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-[6] [7 <./Figs/wxy_change.png>] [8] [9] [10]
-<Figs/nn_layers_weights.png, id=296, 951.555pt x 627.34375pt>
+[6] [7 <./Figs/wxy_change.png>] [8]
+<Figs/1layer_nn.png, id=269, 787.94376pt x 291.0875pt>
+File: Figs/1layer_nn.png Graphic file (type png)
+<use Figs/1layer_nn.png>
+Package pdftex.def Info: Figs/1layer_nn.png  used on input line 293.
+(pdftex.def)             Requested size: 236.38495pt x 87.32692pt.
+ [9 <./Figs/1layer_nn.png>]
+Overfull \hbox (50.7776pt too wide) in paragraph at lines 328--330
+\OT1/cmr/m/n/12 From these, the weight cor-rec-tions can be found from $^^A\OML
+/cmm/m/it/12 w[] \OT1/cmr/m/n/12 = \OML/cmm/m/it/12 ^^Q\OT1/cmr/m/n/12 (\OML/cm
+m/m/it/12 ^^N[]\OT1/cmr/m/n/12 )(\OML/cmm/m/it/12 a[]\OT1/cmr/m/n/12 )$
+ []
+
+[10] [11]
+<Figs/nn_layers_weights.png, id=317, 951.555pt x 627.34375pt>
 File: Figs/nn_layers_weights.png Graphic file (type png)
 <use Figs/nn_layers_weights.png>
-Package pdftex.def Info: Figs/nn_layers_weights.png  used on input line 380.
+Package pdftex.def Info: Figs/nn_layers_weights.png  used on input line 433.
 (pdftex.def)             Requested size: 285.4687pt x 188.20457pt.
- [11 <./Figs/nn_layers_weights.png>] [12]
-<Figs/nn_reshape.png, id=326, 961.5925pt x 626.34pt>
+ [12 <./Figs/nn_layers_weights.png>] [13]
+<Figs/nn_reshape.png, id=345, 961.5925pt x 626.34pt>
 File: Figs/nn_reshape.png Graphic file (type png)
 <use Figs/nn_reshape.png>
-Package pdftex.def Info: Figs/nn_reshape.png  used on input line 462.
+Package pdftex.def Info: Figs/nn_reshape.png  used on input line 515.
 (pdftex.def)             Requested size: 288.47997pt x 187.90344pt.
+ [14 <./Figs/nn_reshape.png>]
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 529.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 476.
+(hyperref)                removing `\delta' on input line 529.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\delta' on input line 476.
+(hyperref)                removing `math shift' on input line 529.
 
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 476.
-
-[13 <./Figs/nn_reshape.png>] [14]
-<Figs/nn_delta_connect.png, id=355, 663.47874pt x 612.2875pt>
+[15]
+<Figs/nn_delta_connect.png, id=375, 663.47874pt x 612.2875pt>
 File: Figs/nn_delta_connect.png Graphic file (type png)
 <use Figs/nn_delta_connect.png>
-Package pdftex.def Info: Figs/nn_delta_connect.png  used on input line 551.
+Package pdftex.def Info: Figs/nn_delta_connect.png  used on input line 604.
 (pdftex.def)             Requested size: 199.04515pt x 183.68767pt.
 
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-[15] [16 <./Figs/nn_delta_connect.png>] [17]
-Overfull \hbox (6.79999pt too wide) in paragraph at lines 656--662
+[16] [17 <./Figs/nn_delta_connect.png>] [18]
+Overfull \hbox (6.79999pt too wide) in paragraph at lines 709--715
 []
  []
 
-[18]
-Overfull \hbox (30.42026pt too wide) in paragraph at lines 714--714
+[19]
+Overfull \hbox (30.42026pt too wide) in paragraph at lines 767--767
 [] \OT1/cmtt/m/n/12 mat_activations = np.broadcast_to(as_vector,(len(deltas[ahe
 ad]),len(as_vector)))[] 
  []
 
-[19] [20] [21] [22] [23] [24]
-<Figs/bp_sin.png, id=490, 709.65125pt x 448.67625pt>
+[20] [21] [22] [23] [24] [25]
+<Figs/bp_sin.png, id=513, 709.65125pt x 448.67625pt>
 File: Figs/bp_sin.png Graphic file (type png)
 <use Figs/bp_sin.png>
-Package pdftex.def Info: Figs/bp_sin.png  used on input line 936.
+Package pdftex.def Info: Figs/bp_sin.png  used on input line 989.
 (pdftex.def)             Requested size: 425.79402pt x 269.20782pt.
- [25 <./Figs/bp_sin.png (PNG copy)>] [26] [27]
-[28] [29] [30] [31]
-Underfull \hbox (badness 10000) in paragraph at lines 1219--1220
+ [26 <./Figs/bp_sin.png (PNG copy)>] [27] [28]
+[29] [30] [31] [32]
+Underfull \hbox (badness 10000) in paragraph at lines 1272--1273
 []\OT1/cmr/m/n/12 ``Neural Net-works and Deep Learn-ing'' by Michael Nielsen, [
 ]$\OT1/cmtt/m/n/12 http : / /
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1223--1224
+Underfull \hbox (badness 10000) in paragraph at lines 1276--1277
 [][]$\OT1/cmtt/m/n/12 https : / / dustinstansbury . github . io / theclevermach
 ine /
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1225--1226
+Underfull \hbox (badness 10000) in paragraph at lines 1278--1279
 [][]$\OT1/cmtt/m/n/12 http : / / www . cs . put . poznan . pl / pliskowski / pu
 b / teaching / eio / lab1 /
  []
 
-[32] [33] (./bp.aux)
+[33] [34] (./bp.aux)
 
 LaTeX Warning: There were multiply-defined labels.
 
 Package rerunfilecheck Info: File `bp.out' has not changed.
-(rerunfilecheck)             Checksum: 611B249E306760F084DB88BF3347EB4D;4132.
+(rerunfilecheck)             Checksum: FE1D90DDFD530573B472F04D0F6EA8A4;4374.
  ) 
 Here is how much of TeX's memory you used:
- 11177 strings out of 476025
- 170604 string characters out of 5790016
+ 11203 strings out of 476025
+ 171035 string characters out of 5790016
  2038388 words of memory out of 5000000
- 31180 multiletter control sequences out of 15000+600000
+ 31192 multiletter control sequences out of 15000+600000
  519392 words of font info for 58 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  75i,15n,76p,738b,2051s stack positions out of 10000i,1000n,20000p,200000b,200000s
@@ -485,10 +498,10 @@ ive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb></usr/local/texli
 ve/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/local/texliv
 e/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt12.pfb></usr/local/texlive
 /2023/texmf-dist/fonts/type1/public/cm-super/sfrm1200.pfb>
-Output written on bp.pdf (33 pages, 648780 bytes).
+Output written on bp.pdf (34 pages, 670843 bytes).
 PDF statistics:
- 753 PDF objects out of 1000 (max. 8388607)
- 668 compressed objects within 7 object streams
- 325 named destinations out of 1000 (max. 500000)
- 215 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 777 PDF objects out of 1000 (max. 8388607)
+ 689 compressed objects within 7 object streams
+ 338 named destinations out of 1000 (max. 500000)
+ 228 words of extra memory for PDF output out of 10000 (max. 10000000)
 

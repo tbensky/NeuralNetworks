@@ -90,7 +90,9 @@ class neural_net:
         layer_count = len(self.NN)
 
         #find z and a for input neurons
-        z = np.array(input + self.bias[0])
+        #note the z-vectors found during a forward pass cannot be stored 
+        # in a numpy matrix due to their size differences (i.e. each is as large as the # of neurons in their layer)
+        z = input + self.bias[0]
         a = self.activation(z)
         self.zs.append(z)
       
@@ -105,13 +107,13 @@ class neural_net:
         #last vector in zs array is for the output layer
         output_layer = len(self.zs)-1
 
-        #the first goal here is to build up a column of delta values for each layer
-        #seed delta list with output layer
+        #the first goal here is to build up a list of delta vectors for each layer
+        #start by seeding delta list with output layer
         deltas = [
                         self.activationp(self.zs[output_layer]) * 
                         (output - target)
         ]
-        #ok, now put it on the zs of the first hidden layer
+        #ok, now move to the the zs of the first hidden layer
         hidden_layer = output_layer - 1
         
         #go backward through the network
@@ -176,6 +178,9 @@ class neural_net:
         for (bias,db) in zip(self.bias,self.dbs):
             bias -= self.eta_b*db/data_count
 
+    def adjust_network(self,data_count):
+        self.adjust_weights(data_count)
+        self.adjust_biases(data_count)
 
     def set_weights(self,layer,weights):
         self.NN[layer] = weights
@@ -183,14 +188,14 @@ class neural_net:
     def get_weights(self,layer):
         return self.NN[layer]
 
-"""
+
 nn = neural_net(    input_neuron_count=4,
                     output_neuron_count = 3,
                     hidden_neuron_count=[3,4],
                     learning_rate=3
                 )
 
-pairs = [
+training_pairs = [
     
             [[0.10,0.50,0.10,0.25],[0.25,0.75,0.5]],
             [[1.00,0.00,0.20,0.33],[1,0.35,0.1]],
@@ -200,9 +205,14 @@ pairs = [
             [[0.88,0.20,0.25,0.65],[0.1,0.4,0.1]],
             [[0.60,0.25,0.15,0.75],[0.5,0.1,0.9]],
 ]
+
+test_pair = [
+             [[0.60,0.25,0.15,0.75],[0.5,0.1,0.9]]
+
+]
+
+
 """
-
-
 nn = neural_net(    input_neuron_count=784,
                     output_neuron_count = 6,
                     hidden_neuron_count=[40,20],
@@ -215,10 +225,21 @@ nn = neural_net(    input_neuron_count=784,
 # 21,600 epochs, loss=0.0071
 # 22,700 epochs, loss=0.00672
 with open("training_pairs.json","r") as f:
-    pairs = json.load(f)
+    training_pairs = json.load(f)
 
 test_pair = [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 1, 0]]
- 
+"""
+
+
+for i,(a,b) in enumerate(training_pairs):
+    if i == 0:
+        inputs = np.array(a)
+        targets = np.array(b)
+    else:
+        inputs = np.vstack([inputs,a])
+        targets = np.vstack([targets,b])
+
+
 
 """
 nn.set_weights(0,np.array(
@@ -248,26 +269,34 @@ while True:
     Acc = 0
 
     #send in input/output pairs and track needed weight changes
+    
+    for i in range(0,len(inputs)):
+        nn_output = nn.forward(inputs[i])
+        diff = targets[i] - nn_output
+        L = L + 0.5 * np.dot(diff,diff).sum()
+        nn.backward(nn_output,targets[i])
+
+    """
     for (input,target) in pairs:
         nn_output = nn.forward(input)
         diff = target - nn_output
         L = L + 0.5 * np.dot(diff,diff).sum()
         nn.backward(np.array(nn_output),target)
+    """
     
     #now, actually adjust the weights and biases
-    nn.adjust_weights(len(pairs))
-    nn.adjust_biases(len(pairs))
+    nn.adjust_network(len(inputs))
 
     #information output
-    if epoch == 0 or epoch % 100 == 0:
+    if epoch == 0 or epoch % 1000 == 0:
         cur_time = time.time()
         dt = cur_time - start_time
         print(f"t={dt:.2f}, epoch={epoch:,}, loss={L}")
-        nn_output = nn.forward(test_pair[0])
 
-        diff = test_pair[1] - nn_output
+        nn_output = nn.forward(test_pair[0][0])
+        diff = test_pair[0][1] - nn_output
         Acc = Acc + 0.5 * np.dot(diff,diff).sum()
-        print(f"Test: Output={nn_output}, Target={test_pair[1]}")
+        print(f"Test: Output={nn_output}, Target={test_pair[0][1]}")
         
         loss_track.append([dt,epoch,L,Acc])
 
@@ -284,5 +313,5 @@ while True:
 end_time = time.time()
 print(f"Took {end_time - start_time} seconds, {(end_time - start_time)/60} minutes.")
 
-plt.plot(loss['epoch'],loss['loss'],loss['acc'])
-plt.savefig("loss.png")
+#plt.plot(loss_track['epoch'],loss_track['loss'],loss_track['acc'])
+#plt.savefig("loss.png")

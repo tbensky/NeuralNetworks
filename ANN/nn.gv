@@ -1,0 +1,77 @@
+digraph G {
+	fontsize="20pt" nodesep=0.5 rankdir=LR splines=false
+	node [fontsize="12pt"]
+	subgraph cluster_0 {
+		fontsize="12pt" peripheries=0
+		I0 [label="I0
+z=0.250
+a=0.562
+delta=3.94e-04"]
+		I1 [label="I1
+z=0.750
+a=0.679
+delta=3.49e-04"]
+		I2 [label="I2
+z=0.100
+a=0.525
+delta=3.99e-04"]
+		I0 -> I1 [style=invis]
+		I1 -> I2 [style=invis]
+		label="Input layer"
+	}
+	subgraph cluster_1 {
+		fontsize="12pt" peripheries=0
+		H10 [label="H00
+z=0.177
+a=0.544
+delta=5.42e-03"]
+		H11 [label="H01
+z=0.353
+a=0.587
+delta=5.29e-03"]
+		H10 -> H11 [style=invis]
+		label="Hidden layer 1"
+	}
+	subgraph cluster_2 {
+		fontsize="12pt" peripheries=0
+		O0 [label="O0
+z=0.113
+a=0.528
+delta=-1.18e-01"]
+		O1 [label="O1
+z=0.226
+a=0.556
+delta=1.37e-01"]
+		O2 [label="O2
+z=0.339
+a=0.584
+delta=2.04e-02"]
+		O0 -> O1 [style=invis]
+		O1 -> O2 [style=invis]
+		label="Output layer"
+	}
+	I0 -> H10 [label="w=0.100
+dw=3.04e-04"]
+	I0 -> H11 [label="w=0.200
+dw=2.97e-04"]
+	I1 -> H10 [label="w=0.100
+dw=3.68e-04"]
+	I1 -> H11 [label="w=0.200
+dw=3.59e-04"]
+	I2 -> H10 [label="w=0.100
+dw=2.84e-04"]
+	I2 -> H11 [label="w=0.200
+dw=2.78e-04"]
+	H10 -> O0 [label="w=0.100
+dw=-6.40e-03"]
+	H10 -> O1 [label="w=0.200
+dw=7.47e-03"]
+	H10 -> O2 [label="w=0.300
+dw=1.11e-03"]
+	H11 -> O0 [label="w=0.100
+dw=-6.91e-03"]
+	H11 -> O1 [label="w=0.200
+dw=8.07e-03"]
+	H11 -> O2 [label="w=0.300
+dw=1.20e-03"]
+}

@@ -1,0 +1,98 @@
+\relax 
+\providecommand\hyper@newdestlabel[2]{}
+\providecommand\HyperFirstAtBeginDocument{\AtBeginDocument}
+\HyperFirstAtBeginDocument{\ifx\hyper@anchor\@undefined
+\global\let\oldnewlabel\newlabel
+\gdef\newlabel#1#2{\newlabelxx{#1}#2}
+\gdef\newlabelxx#1#2#3#4#5#6{\oldnewlabel{#1}{{#2}{#3}}}
+\AtEndDocument{\ifx\hyper@anchor\@undefined
+\let\newlabel\oldnewlabel
+\fi}
+\fi}
+\global\let\hyper@last\relax 
+\gdef\HyperFirstAtBeginDocument#1{#1}
+\providecommand\HyField@AuxAddToFields[1]{}
+\providecommand\HyField@AuxAddToCoFields[2]{}
+\@writefile{toc}{\contentsline {section}{\numberline {1}Introduction}{1}{section.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {2}Motivation: Develop an educational neural network}{2}{section.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.1}A neuron data structure}{2}{subsection.2.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2}Definitions}{3}{subsection.2.2}\protected@file@percent }
+\newlabel{definitions}{{2.2}{3}{Definitions}{subsection.2.2}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces The neural network modeled here. The output layer is referenced with the $k$ index and the hidden layers with $j$ and $i$. The weights $w_{ij}$ and $w_{jk}$ are highlighted, as they are used in the text.}}{3}{figure.1}\protected@file@percent }
+\newlabel{nn}{{1}{3}{The neural network modeled here. The output layer is referenced with the $k$ index and the hidden layers with $j$ and $i$. The weights $w_{ij}$ and $w_{jk}$ are highlighted, as they are used in the text}{figure.1}{}}
+\newlabel{eqn_zy}{{1}{4}{Definitions}{equation.2.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.3}The forward pass}{5}{subsection.2.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.3.1}Pseudo-code}{5}{subsubsection.2.3.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.4}Back-propagation}{5}{subsection.2.4}\protected@file@percent }
+\newlabel{bp_loop}{{6}{6}{Back-propagation}{Item.9}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces The back propagation plan. Step 1: Compute $\delta _j$ for the first layer to the left of the last one that has been corrected (i.e. the last one whose $\delta $s are known). Step 2: Adjust the weights by $\Delta w_{ab}$.}}{7}{figure.2}\protected@file@percent }
+\newlabel{wxy_change}{{2}{7}{The back propagation plan. Step 1: Compute $\delta _j$ for the first layer to the left of the last one that has been corrected (i.e. the last one whose $\delta $s are known). Step 2: Adjust the weights by $\Delta w_{ab}$}{figure.2}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.4.1}Pseudo-code}{7}{subsubsection.2.4.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.5}A three-layer, three-neuron network}{9}{subsection.2.5}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces A simple neural network consisting of one input neuron, one hidden layer neuron and one output neuron.}}{9}{figure.3}\protected@file@percent }
+\newlabel{1layer_nn}{{3}{9}{A simple neural network consisting of one input neuron, one hidden layer neuron and one output neuron}{figure.3}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {3}Build an optimized neural network model using matrices}{10}{section.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.1}Forward pass}{11}{subsection.3.1}\protected@file@percent }
+\newlabel{eqn_z0}{{17}{11}{Forward pass}{equation.3.17}{}}
+\newlabel{eqn_z1}{{18}{11}{Forward pass}{equation.3.18}{}}
+\newlabel{eqn_z2}{{19}{11}{Forward pass}{equation.3.19}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces A neural network with 3 input neurons, 2 neurons in the single hidden layer, and 4 neurons in the output layer.}}{12}{figure.4}\protected@file@percent }
+\newlabel{nn_layers_weights}{{4}{12}{A neural network with 3 input neurons, 2 neurons in the single hidden layer, and 4 neurons in the output layer}{figure.4}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.1.1}Matrix sizes}{12}{subsubsection.3.1.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.1.2}Pseudo-code}{13}{subsubsection.3.1.2}\protected@file@percent }
+\citation{karpathy}
+\citation{pytorch_history_tracking}
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Showing how the weight matrices must vary in size to reshape a source $a$-vector into the destination $z$-vector of the next layer.}}{14}{figure.5}\protected@file@percent }
+\newlabel{nn_reshape}{{5}{14}{Showing how the weight matrices must vary in size to reshape a source $a$-vector into the destination $z$-vector of the next layer}{figure.5}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Back propagation (the backward pass)}{14}{subsection.3.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.1}The z-vectors}{14}{subsubsection.3.2.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.2}The $\delta $-vectors}{15}{subsubsection.3.2.2}\protected@file@percent }
+\newlabel{eqn_dj}{{29}{16}{For the hidden layers}{equation.3.29}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces Showing how $\delta $ for a neuron in the hidden layer is computed: the $\delta $-values of the \emph  {output layer} are fed backwards into a given neuron in the \emph  {hidden layer}, through the weights leading into the hidden layer neuron. Here $\delta _{0,\textrm  {hidden layer}}\sim \delta _0 w_{00} + \delta _1 w_{01} + \delta _2 w_{02}+ \delta _3 w_{03}.$}}{17}{figure.6}\protected@file@percent }
+\newlabel{nn_delta_connect}{{6}{17}{Showing how $\delta $ for a neuron in the hidden layer is computed: the $\delta $-values of the \emph {output layer} are fed backwards into a given neuron in the \emph {hidden layer}, through the weights leading into the hidden layer neuron. Here $\delta _{0,\textrm {hidden layer}}\sim \delta _0 w_{00} + \delta _1 w_{01} + \delta _2 w_{02}+ \delta _3 w_{03}.$}{figure.6}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.3}Correcting the weights}{18}{subsubsection.3.2.3}\protected@file@percent }
+\citation{karpathy_youtube_01}
+\newlabel{da_matrix}{{43}{19}{Correcting the weights}{equation.3.43}{}}
+\newlabel{act_matrix}{{45}{20}{Correcting the weights}{equation.3.45}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {4}Derivation of all back-propagation formulas}{22}{section.4}\protected@file@percent }
+\newlabel{loss}{{46}{22}{Derivation of all back-propagation formulas}{equation.4.46}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Correcting weights feeding the output layer}{22}{subsection.4.1}\protected@file@percent }
+\newlabel{jk_deriv}{{48}{22}{Correcting weights feeding the output layer}{equation.4.48}{}}
+\newlabel{jk_deriv1}{{49}{22}{Correcting weights feeding the output layer}{equation.4.49}{}}
+\newlabel{dz_k_wjk}{{53}{23}{Correcting weights feeding the output layer}{equation.4.53}{}}
+\newlabel{jk_deriv1}{{55}{23}{Correcting weights feeding the output layer}{equation.4.55}{}}
+\citation{nielson}
+\citation{pytorch}
+\citation{pytorch_grad}
+\newlabel{delta_k}{{56}{24}{Correcting weights feeding the output layer}{equation.4.56}{}}
+\newlabel{bp1}{{57}{24}{Correcting weights feeding the output layer}{equation.4.57}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.1.1}A short numerical example}{24}{subsubsection.4.1.1}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces $\sin (x)$ (dotted) vs $y(x)$ (solid) approximated from the gradient descent code above.}}{26}{figure.7}\protected@file@percent }
+\newlabel{bp_sin}{{7}{26}{$\sin (x)$ (dotted) vs $y(x)$ (solid) approximated from the gradient descent code above}{figure.7}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}Correcting weights feeding a hidden layer}{27}{subsection.4.2}\protected@file@percent }
+\newlabel{ij_deriv}{{60}{27}{Correcting weights feeding a hidden layer}{equation.4.60}{}}
+\newlabel{d_an_wij}{{62}{27}{Correcting weights feeding a hidden layer}{equation.4.62}{}}
+\newlabel{zn_by_wij}{{66}{28}{Correcting weights feeding a hidden layer}{equation.4.66}{}}
+\newlabel{aj_by_wij}{{67}{28}{Correcting weights feeding a hidden layer}{equation.4.67}{}}
+\newlabel{zj_by_wij}{{69}{28}{Correcting weights feeding a hidden layer}{equation.4.69}{}}
+\citation{swarthmore}
+\newlabel{d_an_wij_filled}{{73}{29}{Correcting weights feeding a hidden layer}{equation.4.73}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.2.1}One more time}{30}{subsubsection.4.2.1}\protected@file@percent }
+\newlabel{dL_by_dwhi}{{85}{31}{One more time}{equation.4.85}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.3}Correcting neuron biases}{31}{subsection.4.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.3.1}Another look}{32}{subsubsection.4.3.1}\protected@file@percent }
+\newlabel{LT_by_bj}{{92}{32}{Another look}{equation.4.92}{}}
+\newlabel{an_by_bj}{{93}{32}{Another look}{equation.4.93}{}}
+\bibcite{nielson}{1}
+\bibcite{swarthmore}{2}
+\bibcite{stansbury}{3}
+\bibcite{poznan}{4}
+\newlabel{an_by_bj1}{{100}{33}{Another look}{equation.4.100}{}}
+\bibcite{cornell}{5}
+\bibcite{lecunn}{6}
+\bibcite{karpathy}{7}
+\bibcite{pytorch_history_tracking}{8}
+\bibcite{pytorch}{9}
+\bibcite{pytorch_grad}{10}
+\bibcite{karpathy_youtube_01}{11}
+\gdef \@abspage@last{34}
