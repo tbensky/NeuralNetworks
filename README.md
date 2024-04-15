@@ -142,3 +142,8 @@ In this code the ANN is now thought of not in terms of discrete neurons, but in 
 This was also a fun mathematical exercise in matrices and vector reshaping, with details all captured in [bp.pdf](https://github.com/tbensky/NeuralNetworks/blob/main/Backprop_derive/bp.pdf). 
 
 The code and API is identical to the `ANNLoops` code.
+
+
+# ANNPytorch
+
+Another adapation, but now I used PyTorch.
