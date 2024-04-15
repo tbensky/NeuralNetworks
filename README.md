@@ -63,7 +63,7 @@ The ANN in this folder may be run by doing a
 python3 ann.py
 ```
 
-It is programmed to train a series of 7 training pairs held in a list of lists as follows:
+If you run the code, you'll see a loss number printed, which gets lower and lower.  As it stands here, the code will train a series of 7 training pairs held in a list of lists as follows:
 
 ```python
 pairs = [
@@ -137,11 +137,13 @@ while True:
 
 # ANNMatrices
 
-In this code the ANN is now thought of not in terms of discrete neurons, but in terms of transforming the input vector into an output vector using matrix multiplications and `NumPy`. Thus all for-loops were removes (as much as possible), in favor of matrix multiplications.
+In this code the ANN is now thought of not in terms of discrete neurons, but in terms of transforming the input vector into an output vector using matrix multiplications and `NumPy`. Thus all for-loops were removes (as much as possible), in favor of matrix multiplications.  This was also a fun mathematical exercise in matrices and vector reshaping, with details all captured in [bp.pdf](https://github.com/tbensky/NeuralNetworks/blob/main/Backprop_derive/bp.pdf). 
 
-This was also a fun mathematical exercise in matrices and vector reshaping, with details all captured in [bp.pdf](https://github.com/tbensky/NeuralNetworks/blob/main/Backprop_derive/bp.pdf). 
+The forward pass was farily straightforward, and forces you to really think of an ANN as a vector transformer, taking an input vector and transforming it into a new vector (both the elements and shape) as it goes from layer to layer.  Each element in the new vector corresponds to what would be the input ($z$) for that given neuron. You do have to keep track of each neuron's $z$ for use in the BP (backward) pass. (This means you can't just multiple the input vector to the ANN by a whole bunch of weight matrices in order to get the output vector.)
 
-The code and API is identical to the `ANNLoops` code.
+The backward pass was interesting as now you're propagating the error from each forward layer neuron into it's backward layer. This again involves matrix multiplications, but very different ones than in the forward pass. This is because a neuron's information flow is different when going forward vs. backward. In the forward direction, each neuron broadcasts its activation to each neuron in the next forward layer. In the backward direction, each neuron in a forward layer broadcasts its error backward into each individual neuron in the backward layer. 
+
+The API is identical to the `ANNLoops` code.
 
 
 # ANNPytorch

@@ -91,7 +91,7 @@ class neural_net:
 
         #find z and a for input neurons
         #note the z-vectors found during a forward pass cannot be stored 
-        # in a numpy matrix due to their size differences (i.e. each is as large as the # of neurons in their layer)
+        #in a numpy matrix due to their size differences (i.e. each is as large as the # of neurons in their layer)
         z = input + self.bias[0]
         a = self.activation(z)
         self.zs.append(z)
