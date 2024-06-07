@@ -1,0 +1,67 @@
+// The Round Table
+digraph {
+	l00 [label=l00]
+	l01 [label=l01]
+	l02 [label=l02]
+	l03 [label=l03]
+	l10 [label=l10]
+	l11 [label=l11]
+	l12 [label=l12]
+	l13 [label=l13]
+	l20 [label=l20]
+	l21 [label=l21]
+	l22 [label=l22]
+	l23 [label=l23]
+	l30 [label=l30]
+	l31 [label=l31]
+	l32 [label=l32]
+	l33 [label=l33]
+	r00 [label=r00]
+	r01 [label=r01]
+	r02 [label=r02]
+	r10 [label=r10]
+	r11 [label=r11]
+	r12 [label=r12]
+	r20 [label=r20]
+	r21 [label=r21]
+	r22 [label=r22]
+	r00 -> l00
+	r00 -> l00
+	r00 -> l00
+	r00 -> l00
+	r01 -> l01
+	r01 -> l01
+	r01 -> l01
+	r01 -> l01
+	r02 -> l02
+	r02 -> l02
+	r02 -> l02
+	r02 -> l02
+	r10 -> l10
+	r10 -> l10
+	r10 -> l10
+	r10 -> l10
+	r11 -> l11
+	r11 -> l11
+	r11 -> l11
+	r11 -> l11
+	r12 -> l12
+	r12 -> l12
+	r12 -> l12
+	r12 -> l12
+	r20 -> l20
+	r20 -> l20
+	r20 -> l20
+	r20 -> l20
+	r21 -> l21
+	r21 -> l21
+	r21 -> l21
+	r21 -> l21
+	r22 -> l22
+	r22 -> l22
+	r22 -> l22
+	r22 -> l22
+	A -> B
+	A -> L
+	B -> L [constraint=false]
+}

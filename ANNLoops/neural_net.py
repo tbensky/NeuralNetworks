@@ -29,6 +29,14 @@ class neural_net:
                 self.NN[layer][neuron]['dw'] = [0] * len(self.NN[layer+1])
                 self.NN[layer][neuron]['db'] = 0.0
 
+    #get a weight
+    def W(self,layer,neuron,forward_neuron):
+        return self.NN[layer][neuron]['w'][forward_neuron]
+
+    #decrement a weight by the amount delta
+    def decW(self,layer,neuron,forward_neuron,delta):
+        self.NN[layer][neuron]['w'][forward_neuron] -= delta
+        
     def forward(self,x):
         assert len(x) == len(self.NN[0])
         
@@ -44,7 +52,8 @@ class neural_net:
             for forward_neuron in range(len(self.NN[forward_layer])):
                 z = 0.0
                 for neuron in range(len(self.NN[layer])):
-                    z = z + self.NN[layer][neuron]['w'][forward_neuron] * self.NN[layer][neuron]['a'] + self.NN[layer][neuron]['b']
+                    #z = z + self.NN[layer][neuron]['w'][forward_neuron] * self.NN[layer][neuron]['a'] + self.NN[layer][neuron]['b']
+                    z = z + self.W(layer,neuron,forward_neuron) * self.NN[layer][neuron]['a'] + self.NN[layer][neuron]['b']
                 self.NN[forward_layer][forward_neuron]['z'] = z
                 self.NN[forward_layer][forward_neuron]['a'] = self.activate(z)
 
@@ -67,7 +76,8 @@ class neural_net:
             for neuron in range(len(self.NN[hidden_layer])):
                 dsum = 0.0
                 for forward_neuron in range(len(self.NN[forward_layer])):
-                    w = self.NN[hidden_layer][neuron]['w'][forward_neuron]
+                    #w = self.NN[hidden_layer][neuron]['w'][forward_neuron]
+                    w = self.W(hidden_layer,neuron,forward_neuron)
                     delta_forward_layer = self.NN[forward_layer][forward_neuron]['delta']
                     dsum = dsum + delta_forward_layer * w
                 z = self.NN[hidden_layer][neuron]['z']
@@ -86,10 +96,11 @@ class neural_net:
     def adjust_weights(self,data_count):
         #adjust all weights
         for layer in range(len(self.NN)-2,-1,-1):
-            for x in range(len(self.NN[layer])):
-                for y in range(len(self.NN[layer+1])):
+            for neuron in range(len(self.NN[layer])):
+                for forward_neuron in range(len(self.NN[layer+1])):
                     # -= due to "gradient descent." 
-                    self.NN[layer][x]['w'][y] -= self.NN[layer][x]['dw'][y] / data_count
+                    # self.NN[layer][x]['w'][y] -= self.NN[layer][x]['dw'][y] / data_count
+                    self.decW(layer,neuron,forward_neuron,self.NN[layer][neuron]['dw'][forward_neuron] / data_count)
     
     def adjust_biases(self,data_count):
         #adjust all biases

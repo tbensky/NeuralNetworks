@@ -40,7 +40,7 @@ nn = neural_net.neural_net(
             input_neuron_count=4,
             output_neuron_count=3,
             hidden_neuron_count=[3,4],
-            learning_rate=2,
+            learning_rate=0.1,
             init_neuron_bias=0.01
             )
 
