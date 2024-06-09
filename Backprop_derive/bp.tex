@@ -1329,7 +1329,11 @@ which becomes
 Let's find the derivative of the network by starting with the input. We know that 
 
 \begin{equation}
-a_j=f(w_{1j}a_1),
+z_j=w_{1j}{a_1},
+\end{equation}
+with the activation being
+\begin{equation}
+a_j=f(z_j),
 \end{equation}
 with
 \begin{equation}

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2023.11.10)  9 JUN 2024 20:27
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2023.11.10)  9 JUN 2024 20:30
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -453,19 +453,19 @@ Package pdftex.def Info: Figs/bp_sin.png  used on input line 989.
 (pdftex.def)             Requested size: 425.79402pt x 269.20782pt.
  [26 <./Figs/bp_sin.png (PNG copy)>] [27] [28]
 [29] [30] [31] [32] [33] [34] [35] [36]
-Underfull \hbox (badness 10000) in paragraph at lines 1454--1455
+Underfull \hbox (badness 10000) in paragraph at lines 1458--1459
 []\OT1/cmr/m/n/12 ``Neural Net-works and Deep Learn-ing'' by Michael Nielsen, [
 ]$\OT1/cmtt/m/n/12 http : / /
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1458--1459
+Underfull \hbox (badness 10000) in paragraph at lines 1462--1463
 [][]$\OT1/cmtt/m/n/12 https : / / dustinstansbury . github . io / theclevermach
 ine /
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1460--1461
+Underfull \hbox (badness 10000) in paragraph at lines 1464--1465
 [][]$\OT1/cmtt/m/n/12 http : / / www . cs . put . poznan . pl / pliskowski / pu
 b / teaching / eio / lab1 /
  []
@@ -478,8 +478,8 @@ Package rerunfilecheck Info: File `bp.out' has not changed.
 (rerunfilecheck)             Checksum: D8929962EE831595D5D380133A04E617;5697.
  ) 
 Here is how much of TeX's memory you used:
- 11256 strings out of 476025
- 171722 string characters out of 5790016
+ 11257 strings out of 476025
+ 171736 string characters out of 5790016
  2038388 words of memory out of 5000000
  31202 multiletter control sequences out of 15000+600000
  519392 words of font info for 58 fonts, out of 8000000 for 9000
@@ -501,10 +501,10 @@ ive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb></usr/local/texli
 ve/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/local/texliv
 e/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt12.pfb></usr/local/texlive
 /2023/texmf-dist/fonts/type1/public/cm-super/sfrm1200.pfb>
-Output written on bp.pdf (38 pages, 682230 bytes).
+Output written on bp.pdf (38 pages, 682334 bytes).
 PDF statistics:
- 870 PDF objects out of 1000 (max. 8388607)
- 777 compressed objects within 8 object streams
- 381 named destinations out of 1000 (max. 500000)
+ 871 PDF objects out of 1000 (max. 8388607)
+ 778 compressed objects within 8 object streams
+ 382 named destinations out of 1000 (max. 500000)
  268 words of extra memory for PDF output out of 10000 (max. 10000000)
 
