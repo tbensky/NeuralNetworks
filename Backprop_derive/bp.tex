@@ -1264,6 +1264,188 @@ or
 So indeed, the pattern holds: the dependence of the network loss on a neuron bias is the value of $\delta$ of that  neuron. 
 
 
+\section{Physics Informed Neural Network (PINN)}
+
+Idea: is it also possible to feed derivatives forward through a neural network.
+
+Assume a three-layer neural network $i$, $j$, and $k$, with a single input neuron with input $z_1$. In physics, this will be a single variable of integration like $t$. As usual, this single input neuron is activated with $a_1=f(z_1)$, and this neuron is connected to the $j$th neuron in the forward layer via weight $w_{1j}$.  The next layer $j$ is found as
+
+\begin{equation}
+a_j=f\left(w_{1j} a_1\right),
+\end{equation}
+and the next as 
+\begin{equation}
+z_k=\sum_j w_{jk} a_j,
+\end{equation}
+with
+\begin{equation}
+a_k=f(z_k).
+\end{equation}
+
+\subsection{Working backward to find the derivative of the network}
+\label{dforward}
+
+Starting with the output of the network, We differentiate the output $a_k$ with respect to the input $z_1$:
+\begin{equation}
+\frac{da_k}{dz_1}=f'(z_k)\frac{dz_k}{dz_1}.
+\end{equation}
+But 
+\begin{equation}
+\frac{dz_k}{dz_1}=\sum_j w_{jk}\frac{da_j}{dz_1},
+\end{equation}
+with 
+\begin{equation}
+\frac{da_j}{dz_1}=f'(w_{1j}{a_1})w_{1j}\frac{da_1}{dz_1}.
+\end{equation}
+Lastly,
+\begin{equation}
+\frac{da_1}{dz_1}=f'(z_1),
+\end{equation}
+so
+\begin{equation}
+\frac{da_j}{dz_1}=f'(w_{1j}{a_1})w_{1j}f'(z_1).
+\end{equation}
+The final result is then
+\begin{equation}
+\frac{dz_k}{dz_1}=\sum_j w_{jk}f'(w_{1j}{a_1})w_{1j}f'(z_1).
+\end{equation}
+Rearranging and using $a_1=f(z_1)$we get
+\begin{equation}
+\frac{dz_k}{dz_1}=f'(z_1)\sum_j w_{1j}w_{jk}f'(w_{1j}{f(z_1)}).
+\label{dbase}
+\end{equation}
+Using this expression as a base, we see that higher derivatives are possible with respect to the input variable $z_1$, as
+\begin{equation}
+\frac{d^2z_k}{dz_1^2}=f''(z_1)\sum_j w_{1j}w_{jk}f'(w_{1j}{f(z_1)}) + f'(z_1)\sum_j w_{1j}w_{jk}f''\left(w_{1j}f(z_1)\right)\frac{d(w_{1j}f(z_1))}{dz_1},
+\end{equation}
+which becomes
+\begin{equation}
+\frac{d^2z_k}{dz_1^2}=f''(z_1)\sum_j w_{1j}w_{jk}f'(w_{1j}{f(z_1)}) + f'(z_1)\sum_j w_{1j}w_{jk}f''\left(w_{1j}f(z_1)\right)w_{1j}f'(z_1).
+\end{equation}
+
+\subsection{Working forward to find the derivative of the network}
+\label{dforward}
+
+Let's find the derivative of the network by starting with the input. We know that 
+
+\begin{equation}
+a_j=f(w_{1j}a_1),
+\end{equation}
+with
+\begin{equation}
+\label{dcore_idea}
+\frac{da_j}{dz_1}=f'(w_{1j}a_1)w_{1j}\frac{da_1}{dz_1}.
+\end{equation}
+Now with
+\begin{equation}
+z_k=\sum_j w_{jk} a_j,
+\end{equation}
+we can write
+\begin{equation}
+\frac{dz_k}{dz_1}=\sum_j w_{jk}\frac{da_j}{dz_1},
+\end{equation}
+which becomes
+\begin{equation}
+\frac{dz_k}{dz_1}=\sum_j w_{jk}f'(w_{1j}a_1)w_{1j}\frac{da_1}{dz_1}.
+\end{equation}
+Now
+\begin{equation}
+\frac{da_1}{dz_1}=f'(z_1)
+\end{equation}
+so
+\begin{equation}
+\frac{dz_k}{dz_1}=\sum_j w_{jk}f'(w_{1j}a_1)w_{1j}f'(z_1),
+\end{equation}
+which when rearranging gives
+\begin{equation}
+\frac{dz_k}{dz_1}=f'(z_1)\sum_j w_{1j} w_{jk}f'(w_{1j}f(z_1)),
+\end{equation}
+which is the same as Eqn.~\ref{dbase}.
+
+\subsection{Forward with a larger network}
+
+Let's find the derivative of the network by starting with the input. For $i$ input neurons initialized each with $z_i$ then activated with $a_i=f(z_i)$ we know that 
+
+\begin{equation}
+z_j=\sum_i w_{ij}a_i,
+\end{equation}
+with
+\begin{equation}
+a_j=f(z_j),
+\end{equation}
+or
+\begin{equation}
+a_j=f\left(\sum_i w_{ij}a_i\right).
+\end{equation}
+Now,
+\begin{equation}
+\frac{da_j}{dz_1}=f'\left(\sum_i w_{ij}a_i\right)\left(\frac{d}{dz_1}\sum_i w_{ij}a_i\right),
+\end{equation}
+which is
+\begin{equation}
+\frac{da_j}{dz_1}=f'\left(\sum_i w_{ij}a_i\right)\left(\sum_i w_{ij}\frac{da_i}{dz_1}\right).
+\end{equation}
+But
+\begin{equation}
+\frac{da_i}{dz_i}=f'(z_i),
+\end{equation}
+so
+\begin{equation}
+\label{dcore1}
+\frac{da_j}{dz_1}=f'\left(\sum_i w_{ij}a_i\right)\left(\sum_i w_{ij}f'(z_i)\right).
+\end{equation}
+Now with
+\begin{equation}
+z_k=\sum_j w_{jk} a_j,
+\end{equation}
+we can write
+\begin{equation}
+\frac{dz_k}{dz_1}=\sum_j w_{jk}\frac{da_j}{dz_1},
+\end{equation}
+which becomes
+\begin{equation}
+\label{dgen}
+\frac{dz_k}{dz_1}=\sum_j w_{jk}f'\left(\sum_i w_{ij}a_i\right)\left(\sum_i w_{ij}f'(z_i)\right).
+\end{equation}
+
+As a check, with only one input neuron, $\sum_i w_{ij}a_i=w_{1j}a_1$ and $\sum_i w_{ij}f'(z_i)=w_{1j}f'(z_1)$,
+so Eqn.~\ref{dgen} becomes
+\begin{equation}
+\frac{dz_k}{dz_1}=\sum_j w_{jk}f'(w_{1j}a_1)w_{1j}f'(z_1).
+\end{equation}
+Rearranging terms, this becomes (with $a_1=f(z_1)$)
+\begin{equation}
+\frac{dz_k}{dz_1}=f'(z_1)\sum_j w_{1j} w_{jk}f'(w_{1j}f(z_1)),
+\end{equation}
+which is the same as Eqn.~\ref{dbase}..
+
+
+
+\subsection{What did we learn?}
+Working backward to find the derivative of a neural network with respect to its inputs would be tedious for more than the single input, three layer system we worked with in Sect.~\ref{dforward}. But what this section showed is that it is possible to construct a network-wide derivative, piece by piece during the {\sl forward pass}, while the usual forward data propagation is happening. 
+
+Eqns.~\ref{dcore_idea} and~\ref{dcore1} capture the logic: a derivative is passed forward by multiplying the derivative from the backward layer by the connecting weight and the derivative of the activation function.
+
+Propagating a layer forward is handled by
+\begin{equation}
+z_j=\sum_i w_{ij} f(z_i),
+\end{equation}
+while propagating a derivative forward is handled by
+\begin{equation}
+\frac{da_j}{dz_1}=f'\left(\sum_i w_{ij}a_i\right)\left(\sum_i w_{ij}f'(z_i)\right).
+\end{equation}
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

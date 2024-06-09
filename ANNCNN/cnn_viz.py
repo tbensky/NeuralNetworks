@@ -105,7 +105,8 @@ for row in range(0,I-K+1,stride):
         #is associated with computing this component of the r-vector 
         for (i,dcomp) in enumerate(d):
             weight_dict[dcomp]['forward_neurons'].append({"neuron_number": rvec,"weight_number": i})
-            #look up table, mapping back later neuron (dcomp) to the forward layer neuron # (rvec) via the convolutional weight (i) 
+            #look up table (lut), mapping back later neuron (dcomp) to the forward layer neuron # (rvec) 
+            # via the convolutional weight (i) 
             weight_dict[dcomp]['lut'][rvec] = i
         rvec += 1
 
