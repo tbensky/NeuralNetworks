@@ -212,12 +212,12 @@ dz = []
 dz2 = []
 timestr = time.strftime("%Y%m%d-%H%M")
 with open(f"results_{timestr}.csv", 'w') as f:
-    f.write("f,fp,fpp\n")
-    x_train = [0.02, 0.12, 0.27, 0.385, 0.64, 0.735, 0.825, 0.93]
+    f.write("t,y,yp,ypp\n")
+    #x_train = [0.02, 0.12, 0.27, 0.385, 0.64, 0.735, 0.825, 0.93]
     for x in x_train:
-        nn.forward([x])
+        res = nn.forward([x])
         deriv = nn.get_deriv()
-        f.write(f"{x},{deriv['ap'][0]},{deriv['app'][0]}\n")
+        f.write(f"{x},{res[0]},{deriv['ap'][0]},{deriv['app'][0]}\n")
         dz.append(deriv['ap'][0])
         dz2.append(deriv['app'][0])
         """
