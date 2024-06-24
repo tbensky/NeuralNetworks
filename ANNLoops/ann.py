@@ -144,9 +144,10 @@ with open("training_pairs.json","r") as f:
 
 #path to dump network state for plotting/animations
 INFO_PATH = "/Users/tom/Desktop/JSON"
-EPS = .25e-2
+EPS = 1e-3
 loss_track = {"epoch":[], "L":[]}
 start_time = time.time()
+update_start = time.time()
 epoch = 0
 while True:
     nn.clear_dw()
@@ -169,7 +170,9 @@ while True:
 
     #information output
     if epoch == 0 or epoch % 1000 == 0:
-        print(f"epoch={epoch:,}, loss={L}")
+        cur_time = time.time()
+        print(f"epoch={epoch:,}, loss={L}, dt={cur_time-update_start} sec")
+        update_start = cur_time
     """
         with open(f'{INFO_PATH}/loss_{epoch:010d}.csv', 'w') as f:
             f.write("epoch,loss\n")
@@ -207,15 +210,20 @@ plt.plot(x_train,y_dsin)
 
 dz = []
 dz2 = []
-print("NN first derivative")
-print("x,ap,app")
-x_train = [0.02, 0.12, 0.27, 0.385, 0.64, 0.735, 0.825, 0.93]
-for x in x_train:
-    nn.forward([x])
-    deriv = nn.get_deriv()
-    print(f"{x},{deriv['ap'][0]},{deriv['app'][0]}")
-    dz.append(deriv['ap'][0])
-    dz2.append(deriv['app'][0])
+timestr = time.strftime("%Y%m%d-%H%M")
+with open(f"results_{timestr}.csv", 'w') as f:
+    f.write("f,fp,fpp\n")
+    x_train = [0.02, 0.12, 0.27, 0.385, 0.64, 0.735, 0.825, 0.93]
+    for x in x_train:
+        nn.forward([x])
+        deriv = nn.get_deriv()
+        f.write(f"{x},{deriv['ap'][0]},{deriv['app'][0]}\n")
+        dz.append(deriv['ap'][0])
+        dz2.append(deriv['app'][0])
+        """
+        for i in range(len(loss_track['epoch'])):
+            f.write(f"{loss_track['epoch'][i]},{loss_track['L'][i]}\n")
+        """
 
 plt.plot(x_train,dz,label='d1')
 plt.plot(x_train,dz2,label='d2')
