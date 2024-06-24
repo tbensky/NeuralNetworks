@@ -129,8 +129,8 @@ class neural_net:
         self.adjust_biases(data_count)
 
     def input_neuron(self,forward_layer_weight_count,desc):
-        wlist = [random.uniform(-0.5,0.5) for i in range(forward_layer_weight_count)]
-        #wlist = np.random.normal(0.0,1.0,size=forward_layer_weight_count).tolist()
+        #wlist = [random.uniform(-0.5,0.5) for i in range(forward_layer_weight_count)]
+        wlist = np.random.normal(0.0,0.1,size=forward_layer_weight_count).tolist()
         wacc_list = [0.0] * forward_layer_weight_count
         #wlist = [0.1*(i+1) for i in range(forward_layer_weight_count)]
         return {
@@ -147,9 +147,9 @@ class neural_net:
                 }
 
     def hidden_neuron(self,forward_layer_weight_count,desc):
-        wlist = [random.uniform(-0.5,0.5) for i in range(forward_layer_weight_count)]
+        #wlist = [random.uniform(-0.5,0.5) for i in range(forward_layer_weight_count)]
         #wlist = [0.1*(i+1) for i in range(forward_layer_weight_count)]
-        #wlist = np.random.normal(0.0,1.0,size=forward_layer_weight_count).tolist()
+        wlist = np.random.normal(0.0,0.1,size=forward_layer_weight_count).tolist()
         wacc_list = [0.0] * forward_layer_weight_count
         return {
                 "desc": desc,
