@@ -162,8 +162,8 @@ while True:
     #now, actually adjust the weights and biases
     nn.adjust_network(len(pairs))
 
-    if L > 0.1:
-        nn.json(f'{INFO_PATH}/nn_{epoch:010d}.json')
+    # if L > 0.1:
+    #     nn.json(f'{INFO_PATH}/nn_{epoch:010d}.json')
     
     loss_track['epoch'].append(epoch)
     loss_track['L'].append(L)
