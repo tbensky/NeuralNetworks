@@ -1,10 +1,10 @@
-\contentsline {section}{\numberline {1}Introduction}{1}{section.1}%
+\contentsline {section}{\numberline {1}Introduction}{2}{section.1}%
 \contentsline {section}{\numberline {2}Motivation: Develop an educational neural network}{2}{section.2}%
 \contentsline {subsection}{\numberline {2.1}A neuron data structure}{2}{subsection.2.1}%
 \contentsline {subsection}{\numberline {2.2}Definitions}{3}{subsection.2.2}%
 \contentsline {subsection}{\numberline {2.3}The forward pass}{5}{subsection.2.3}%
 \contentsline {subsubsection}{\numberline {2.3.1}Pseudo-code}{5}{subsubsection.2.3.1}%
-\contentsline {subsection}{\numberline {2.4}Back-propagation}{5}{subsection.2.4}%
+\contentsline {subsection}{\numberline {2.4}Back-propagation}{6}{subsection.2.4}%
 \contentsline {subsubsection}{\numberline {2.4.1}Pseudo-code}{7}{subsubsection.2.4.1}%
 \contentsline {subsection}{\numberline {2.5}A three-layer, three-neuron network}{9}{subsection.2.5}%
 \contentsline {section}{\numberline {3}Build an optimized neural network model using matrices}{10}{section.3}%
@@ -12,18 +12,23 @@
 \contentsline {subsubsection}{\numberline {3.1.1}Matrix sizes}{12}{subsubsection.3.1.1}%
 \contentsline {subsubsection}{\numberline {3.1.2}Pseudo-code}{13}{subsubsection.3.1.2}%
 \contentsline {subsection}{\numberline {3.2}Back propagation (the backward pass)}{14}{subsection.3.2}%
-\contentsline {subsubsection}{\numberline {3.2.1}The z-vectors}{14}{subsubsection.3.2.1}%
+\contentsline {subsubsection}{\numberline {3.2.1}The z-vectors}{15}{subsubsection.3.2.1}%
 \contentsline {subsubsection}{\numberline {3.2.2}The $\delta $-vectors}{15}{subsubsection.3.2.2}%
 \contentsline {subsubsection}{\numberline {3.2.3}Correcting the weights}{18}{subsubsection.3.2.3}%
 \contentsline {section}{\numberline {4}Derivation of all back-propagation formulas}{22}{section.4}%
 \contentsline {subsection}{\numberline {4.1}Correcting weights feeding the output layer}{22}{subsection.4.1}%
 \contentsline {subsubsection}{\numberline {4.1.1}A short numerical example}{24}{subsubsection.4.1.1}%
-\contentsline {subsection}{\numberline {4.2}Correcting weights feeding a hidden layer}{27}{subsection.4.2}%
+\contentsline {subsection}{\numberline {4.2}Correcting weights feeding a hidden layer}{26}{subsection.4.2}%
 \contentsline {subsubsection}{\numberline {4.2.1}One more time}{30}{subsubsection.4.2.1}%
 \contentsline {subsection}{\numberline {4.3}Correcting neuron biases}{31}{subsection.4.3}%
 \contentsline {subsubsection}{\numberline {4.3.1}Another look}{32}{subsubsection.4.3.1}%
 \contentsline {section}{\numberline {5}Physics Informed Neural Network (PINN)}{34}{section.5}%
-\contentsline {subsection}{\numberline {5.1}Working backward to find the derivative of the network}{34}{subsection.5.1}%
-\contentsline {subsection}{\numberline {5.2}Working forward to find the derivative of the network}{35}{subsection.5.2}%
-\contentsline {subsection}{\numberline {5.3}Forward with a larger network}{36}{subsection.5.3}%
-\contentsline {subsection}{\numberline {5.4}What did we learn?}{37}{subsection.5.4}%
+\contentsline {subsection}{\numberline {5.1}Working backward to find the derivative of the network}{35}{subsection.5.1}%
+\contentsline {subsubsection}{\numberline {5.1.1}Old Result}{35}{subsubsection.5.1.1}%
+\contentsline {subsection}{\numberline {5.2}Higher derivatives}{36}{subsection.5.2}%
+\contentsline {subsection}{\numberline {5.3}Working forward to find the derivative of the network}{36}{subsection.5.3}%
+\contentsline {subsubsection}{\numberline {5.3.1}Forward autodifferentiation}{36}{subsubsection.5.3.1}%
+\contentsline {subsubsection}{\numberline {5.3.2}$dF/dx$ through autodifferentiation}{37}{subsubsection.5.3.2}%
+\contentsline {subsection}{\numberline {5.4}The derivative for a conventional neural network}{38}{subsection.5.4}%
+\contentsline {subsection}{\numberline {5.5}Forward with a larger network}{41}{subsection.5.5}%
+\contentsline {subsection}{\numberline {5.6}What did we learn?}{43}{subsection.5.6}%

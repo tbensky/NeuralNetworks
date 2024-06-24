@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2023.11.10)  9 JUN 2024 20:30
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2023.11.10)  12 JUN 2024 14:43
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -366,47 +366,54 @@ Overfull \hbox (2.74242pt too wide) in paragraph at lines 24--25
 (/usr/local/texlive/2023/texmf-dist/tex/latex/listings/lstlang1.sty
 File: lstlang1.sty 2023/02/27 1.9 listings language file
 ) [2]
-<Figs/nn_fig.png, id=176, 1502.61375pt x 1061.9675pt>
+<Figs/nn_fig.png, id=197, 1502.61375pt x 1061.9675pt>
 File: Figs/nn_fig.png Graphic file (type png)
 <use Figs/nn_fig.png>
 Package pdftex.def Info: Figs/nn_fig.png  used on input line 76.
 (pdftex.def)             Requested size: 300.51743pt x 212.38974pt.
 
-[3 <./Figs/nn_fig.png>] [4{/usr/local/texlive/2023/texmf-dist/fonts/enc/dvips/c
-m-super/cm-super-ts1.enc}]
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[3{/usr/local/texlive/2023/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc
+}] [4 <./Figs/nn_fig.png>]
 LaTeX Font Info:    Font shape `OT1/cmtt/bx/n' in size <10.95> not available
 (Font)              Font shape `OT1/cmtt/m/n' tried instead on input line 135.
- [5]
-<Figs/wxy_change.png, id=222, 1231.60126pt x 1092.08pt>
+ [5] [6]
+<Figs/wxy_change.png, id=261, 1231.60126pt x 1092.08pt>
 File: Figs/wxy_change.png Graphic file (type png)
 <use Figs/wxy_change.png>
 Package pdftex.def Info: Figs/wxy_change.png  used on input line 203.
 (pdftex.def)             Requested size: 369.48323pt x 327.62653pt.
-
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-[6] [7 <./Figs/wxy_change.png>] [8]
-<Figs/1layer_nn.png, id=295, 787.94376pt x 291.0875pt>
+ [7 <./Figs/wxy_change.png>] [8]
+<Figs/1layer_nn.png, id=313, 787.94376pt x 291.0875pt>
 File: Figs/1layer_nn.png Graphic file (type png)
 <use Figs/1layer_nn.png>
 Package pdftex.def Info: Figs/1layer_nn.png  used on input line 293.
 (pdftex.def)             Requested size: 236.38495pt x 87.32692pt.
- [9 <./Figs/1layer_nn.png>]
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[9]
 Overfull \hbox (50.7776pt too wide) in paragraph at lines 328--330
 \OT1/cmr/m/n/12 From these, the weight cor-rec-tions can be found from $^^A\OML
 /cmm/m/it/12 w[] \OT1/cmr/m/n/12 = \OML/cmm/m/it/12 ^^Q\OT1/cmr/m/n/12 (\OML/cm
 m/m/it/12 ^^N[]\OT1/cmr/m/n/12 )(\OML/cmm/m/it/12 a[]\OT1/cmr/m/n/12 )$
  []
 
-[10] [11]
-<Figs/nn_layers_weights.png, id=342, 951.555pt x 627.34375pt>
+[10 <./Figs/1layer_nn.png>] [11]
+<Figs/nn_layers_weights.png, id=366, 951.555pt x 627.34375pt>
 File: Figs/nn_layers_weights.png Graphic file (type png)
 <use Figs/nn_layers_weights.png>
 Package pdftex.def Info: Figs/nn_layers_weights.png  used on input line 433.
 (pdftex.def)             Requested size: 285.4687pt x 188.20457pt.
- [12 <./Figs/nn_layers_weights.png>] [13]
-<Figs/nn_reshape.png, id=370, 961.5925pt x 626.34pt>
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[12] [13 <./Figs/nn_layers_weights.png>]
+<Figs/nn_reshape.png, id=389, 961.5925pt x 626.34pt>
 File: Figs/nn_reshape.png Graphic file (type png)
 <use Figs/nn_reshape.png>
 Package pdftex.def Info: Figs/nn_reshape.png  used on input line 515.
@@ -424,87 +431,148 @@ Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 (hyperref)                removing `math shift' on input line 529.
 
-[15]
-<Figs/nn_delta_connect.png, id=401, 663.47874pt x 612.2875pt>
+[15] [16]
+<Figs/nn_delta_connect.png, id=437, 663.47874pt x 612.2875pt>
 File: Figs/nn_delta_connect.png Graphic file (type png)
 <use Figs/nn_delta_connect.png>
 Package pdftex.def Info: Figs/nn_delta_connect.png  used on input line 604.
 (pdftex.def)             Requested size: 199.04515pt x 183.68767pt.
-
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-[16] [17 <./Figs/nn_delta_connect.png>] [18]
+ [17 <./Figs/nn_delta_connect.png>] [18]
 Overfull \hbox (6.79999pt too wide) in paragraph at lines 709--715
 []
  []
 
-[19]
+[19] [20]
 Overfull \hbox (30.42026pt too wide) in paragraph at lines 767--767
 [] \OT1/cmtt/m/n/12 mat_activations = np.broadcast_to(as_vector,(len(deltas[ahe
 ad]),len(as_vector)))[] 
  []
 
-[20] [21] [22] [23] [24] [25]
-<Figs/bp_sin.png, id=538, 709.65125pt x 448.67625pt>
+[21] [22] [23] [24] [25]
+<Figs/bp_sin.png, id=559, 709.65125pt x 448.67625pt>
 File: Figs/bp_sin.png Graphic file (type png)
 <use Figs/bp_sin.png>
 Package pdftex.def Info: Figs/bp_sin.png  used on input line 989.
 (pdftex.def)             Requested size: 425.79402pt x 269.20782pt.
- [26 <./Figs/bp_sin.png (PNG copy)>] [27] [28]
-[29] [30] [31] [32] [33] [34] [35] [36]
-Underfull \hbox (badness 10000) in paragraph at lines 1458--1459
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[26] [27 <./Figs/bp_sin.png (PNG copy)>] [28] [29] [30] [31] [32] [33]
+<Figs/pinn.png, id=662, 841.1425pt x 721.69624pt>
+File: Figs/pinn.png Graphic file (type png)
+<use Figs/pinn.png>
+Package pdftex.def Info: Figs/pinn.png  used on input line 1274.
+(pdftex.def)             Requested size: 168.22551pt x 144.33669pt.
+ [34 <./Figs/pinn.png>] [35] [36]
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 1403.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 1403.
+
+<Figs/autodiff_001.png, id=703, 1809.76125pt x 898.35625pt>
+File: Figs/autodiff_001.png Graphic file (type png)
+<use Figs/autodiff_001.png>
+Package pdftex.def Info: Figs/autodiff_001.png  used on input line 1409.
+(pdftex.def)             Requested size: 452.43921pt x 224.5885pt.
+[37 <./Figs/autodiff_001.png>] [38] [39] [40] [41] [42]
+Underfull \hbox (badness 10000) in paragraph at lines 1678--1679
 []\OT1/cmr/m/n/12 ``Neural Net-works and Deep Learn-ing'' by Michael Nielsen, [
 ]$\OT1/cmtt/m/n/12 http : / /
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1462--1463
+Underfull \hbox (badness 10000) in paragraph at lines 1682--1683
 [][]$\OT1/cmtt/m/n/12 https : / / dustinstansbury . github . io / theclevermach
 ine /
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1464--1465
+Underfull \hbox (badness 10000) in paragraph at lines 1684--1685
 [][]$\OT1/cmtt/m/n/12 http : / / www . cs . put . poznan . pl / pliskowski / pu
 b / teaching / eio / lab1 /
  []
 
-[37] [38] (./bp.aux)
+[43] [44] (./bp.aux)
 
 LaTeX Warning: There were multiply-defined labels.
 
-Package rerunfilecheck Info: File `bp.out' has not changed.
-(rerunfilecheck)             Checksum: D8929962EE831595D5D380133A04E617;5697.
+
+Package rerunfilecheck Warning: File `bp.out' has changed.
+(rerunfilecheck)                Rerun to get outlines right
+(rerunfilecheck)                or use package `bookmark'.
+
+Package rerunfilecheck Info: Checksums for `bp.out':
+(rerunfilecheck)             Before: E70E5828F627910742BD433C72EC162E;6716
+(rerunfilecheck)             After:  365CFC7CEC386D179770B065F29579DF;6730.
  ) 
 Here is how much of TeX's memory you used:
- 11257 strings out of 476025
- 171736 string characters out of 5790016
- 2038388 words of memory out of 5000000
- 31202 multiletter control sequences out of 15000+600000
+ 11340 strings out of 476025
+ 172943 string characters out of 5790016
+ 2020388 words of memory out of 5000000
+ 31230 multiletter control sequences out of 15000+600000
  519392 words of font info for 58 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 75i,15n,76p,738b,2051s stack positions out of 10000i,1000n,20000p,200000b,200000s
-</usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb
-></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb>
-</usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmitt10.pfb>
-</usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb><
-/usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></u
-sr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr
-/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/l
-ocal/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/loc
-al/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/
-texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmsl12.pfb></usr/local/t
-exlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/te
-xlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texl
-ive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb></usr/local/texli
-ve/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/local/texliv
-e/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt12.pfb></usr/local/texlive
-/2023/texmf-dist/fonts/type1/public/cm-super/sfrm1200.pfb>
-Output written on bp.pdf (38 pages, 682334 bytes).
+ 75i,15n,76p,738b,2181s stack positions out of 10000i,1000n,20000p,200000b,200000s
+
+pdfTeX warning (dest): name{equation.6.163} has been referenced but does not ex
+ist, replaced by a fixed one
+
+
+pdfTeX warning (dest): name{equation.6.166} has been referenced but does not ex
+ist, replaced by a fixed one
+
+
+pdfTeX warning (dest): name{equation.6.145} has been referenced but does not ex
+ist, replaced by a fixed one
+
+
+pdfTeX warning (dest): name{equation.6.149} has been referenced but does not ex
+ist, replaced by a fixed one
+
+
+pdfTeX warning (dest): name{equation.6.144} has been referenced but does not ex
+ist, replaced by a fixed one
+
+
+pdfTeX warning (dest): name{equation.6.130} has been referenced but does not ex
+ist, replaced by a fixed one
+
+
+pdfTeX warning (dest): name{subsection.6.2} has been referenced but does not ex
+ist, replaced by a fixed one
+
+
+pdfTeX warning (dest): name{subsection.6.1} has been referenced but does not ex
+ist, replaced by a fixed one
+
+
+pdfTeX warning (dest): name{section.6} has been referenced but does not exist, 
+replaced by a fixed one
+
+</usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb><
+/usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></
+usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmitt10.pfb></
+usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></u
+sr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr
+/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/l
+ocal/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/loc
+al/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/local
+/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/te
+xlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmsl12.pfb></usr/local/tex
+live/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texl
+ive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texliv
+e/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb></usr/local/texlive
+/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/local/texlive/
+2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt12.pfb></usr/local/texlive/2
+023/texmf-dist/fonts/type1/public/cm-super/sfrm1200.pfb>
+Output written on bp.pdf (44 pages, 871856 bytes).
 PDF statistics:
- 871 PDF objects out of 1000 (max. 8388607)
- 778 compressed objects within 8 object streams
- 382 named destinations out of 1000 (max. 500000)
- 268 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 993 PDF objects out of 1000 (max. 8388607)
+ 889 compressed objects within 9 object streams
+ 435 named destinations out of 1000 (max. 500000)
+ 318 words of extra memory for PDF output out of 10000 (max. 10000000)
 

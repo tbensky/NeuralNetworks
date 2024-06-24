@@ -1268,53 +1268,92 @@ So indeed, the pattern holds: the dependence of the network loss on a neuron bia
 
 Idea: is it also possible to feed derivatives forward through a neural network.
 
-Assume a three-layer neural network $i$, $j$, and $k$, with a single input neuron with input $z_1$. In physics, this will be a single variable of integration like $t$. As usual, this single input neuron is activated with $a_1=f(z_1)$, and this neuron is connected to the $j$th neuron in the forward layer via weight $w_{1j}$.  The next layer $j$ is found as
+Assume a three-layer neural network $i$, $j$, and $k$, with a single input neuron with input $z_1$. In physics, this single input could a single variable of integration of a differential equation, like $t$. As usual, this single input neuron is activated with $a_1=f(z_1)$, and this neuron is connected to each of $j$ neurons in the forward layer to it with the weights $w_{1j}$ (in general this would be $w_{ij}$ but there is only one input neuron so $i=1$.   This network is shown in Fig.~\ref{pinn01}.
+\begin{figure}[h]
+\begin{center}
+\includegraphics[scale=0.2]{Figs/pinn.png}
+\caption{The PINN used here to show how derivatives are propagated through a neural network.}
+\label{pinn01}
+\end{center}
+\end{figure}
+
+Starting with the basic network input $z_1$ and
 
 \begin{equation}
-a_j=f\left(w_{1j} a_1\right),
+a_1=f(z_1).
+\end{equation}
+From here, the input into each neuron in the next layer $j$ is found as
+\begin{equation}
+z_j=w_{1j}a_1
+\end{equation}
+with each's activation 
+\begin{equation}
+\label{pinn_aj}
+a_j=f(z_j),
 \end{equation}
 and the next as 
 \begin{equation}
+\label{pinn_zk}
 z_k=\sum_j w_{jk} a_j,
 \end{equation}
-with
+with the eventual network output being
 \begin{equation}
+\label{ak}
 a_k=f(z_k).
 \end{equation}
 
 \subsection{Working backward to find the derivative of the network}
 \label{dforward}
 
-Starting with the output of the network, We differentiate the output $a_k$ with respect to the input $z_1$:
+Starting directly with the output of the network, we differentiate the output $a_k$ from Eqn.~\ref{ak} with respect to the input $z_1$
 \begin{equation}
+\label{backward_start}
 \frac{da_k}{dz_1}=f'(z_k)\frac{dz_k}{dz_1}.
 \end{equation}
-But 
+Now, using Eqn.~\ref{pinn_zk} we get
 \begin{equation}
-\frac{dz_k}{dz_1}=\sum_j w_{jk}\frac{da_j}{dz_1},
+\label{dzk_dz1}
+\frac{dz_k}{dz_1}=\sum_j w_{jk}\frac{da_j}{dz_1}.
 \end{equation}
-with 
+We know that
 \begin{equation}
-\frac{da_j}{dz_1}=f'(w_{1j}{a_1})w_{1j}\frac{da_1}{dz_1}.
+a_j=f(z_j)
 \end{equation}
-Lastly,
+and since we only have a single input neuron, $z_j=w_{1j}z_1$, so
 \begin{equation}
-\frac{da_1}{dz_1}=f'(z_1),
+\label{aj_for_diff}
+a_j=f(w_{1j}z_1).
 \end{equation}
-so
+We differentiate Eqn.~\ref{aj_for_diff} to get 
 \begin{equation}
-\frac{da_j}{dz_1}=f'(w_{1j}{a_1})w_{1j}f'(z_1).
+\frac{da_j}{dz_1}=f'(w_{1j}z_1)w_{1j}.
 \end{equation}
+This can be put into Eqn.~\ref{dzk_dz1} to give
+\begin{equation}
+\frac{dz_k}{dz_1}=\sum_j w_{jk}f'(w_{1j}z_1)w_{1j}.
+\end{equation}
+This can be put into Eqn.~\ref{backward_start} to get
+\begin{equation}
+\frac{da_k}{dz_1}=f'(z_k)\sum_j w_{jk}f'(w_{1j}z_1)w_{1j}.
+\end{equation}
+
+
+\subsubsection{Old Result}
 The final result is then
 \begin{equation}
 \frac{dz_k}{dz_1}=\sum_j w_{jk}f'(w_{1j}{a_1})w_{1j}f'(z_1).
 \end{equation}
-Rearranging and using $a_1=f(z_1)$we get
+Rearranging and using $a_1=f(z_1)$ we get
 \begin{equation}
 \frac{dz_k}{dz_1}=f'(z_1)\sum_j w_{1j}w_{jk}f'(w_{1j}{f(z_1)}).
 \label{dbase}
 \end{equation}
-Using this expression as a base, we see that higher derivatives are possible with respect to the input variable $z_1$, as
+This shows the derivative of the output of the network $z_k$ with respect to the single input variable $z_1$. It is all a function only of the interconnecting weights and $z_1$ itself.
+
+\subsection{Higher derivatives}
+
+Typically physical systems require higher order derivatives, such as Newton's laws with $F=m\cdot d^2r/dt^2$.  
+Using Eqn.~\ref{dbase} as a base, we see that higher derivatives are possible with respect to the input variable $z_1$, as
 \begin{equation}
 \frac{d^2z_k}{dz_1^2}=f''(z_1)\sum_j w_{1j}w_{jk}f'(w_{1j}{f(z_1)}) + f'(z_1)\sum_j w_{1j}w_{jk}f''\left(w_{1j}f(z_1)\right)\frac{d(w_{1j}f(z_1))}{dz_1},
 \end{equation}
@@ -1326,41 +1365,222 @@ which becomes
 \subsection{Working forward to find the derivative of the network}
 \label{dforward}
 
-Let's find the derivative of the network by starting with the input. We know that 
+It's tedious to find the derivative of network, but at least it's possible.  Let's now find the derivative of the network by starting with the input, and we;ll do this in the spirit of ``autodifferentiation,'' which opens up the possibility of computing the derivative of the entire network by keeping track of piece-by-piece derivatives during the forward data-pass through the network. First, a brief look at autodifferentiation.
 
+\subsubsection{Forward autodifferentiation}
+
+Suppose we have a function $F(x)$ that is a composite of other functions, $f(x)$, $g(x)$ and $h(x)$, such that
 \begin{equation}
-z_j=w_{1j}{a_1},
+F(x)=f(g(h(x))).
 \end{equation}
-with the activation being
+We choose a composite function like this because a neural network is also such a function: the input layer feeds the hidden layers that feeds the output layer.  Here $F(x)$ is the ``output'' that starts with $h(x)$ feeding $g(x)$, and $g(x)$ feeding $f(x)$, which leads to the output $F(x)$.
+
+Now, suppose  we wanted to find $dF/dx$. Elementary calculus and the chain-rule shows this to be
 \begin{equation}
-a_j=f(z_j),
+\frac{dF}{dx}=\frac{df}{dg}\frac{dg}{dh}\frac{dh}{dx}.
 \end{equation}
-with
+A possible point of confusion already is ``what the meaning of $df/dg$?'' Calculus would say this means ``find the derivative of $f$ with respect to $g$.'' But $g$ is a function.  How does one differentiate a function with respect to another function?
+
+What this actually means is to find the derivative of $f$ with respect to its independent variable, then evaluate the derivative at the value of function $g(x)$. So, supposing $f=f(x)$,
 \begin{equation}
-\label{dcore_idea}
-\frac{da_j}{dz_1}=f'(w_{1j}a_1)w_{1j}\frac{da_1}{dz_1}.
+\frac{df}{dg}=\frac{df}{dx}\bigg\rvert_{g(x)},
 \end{equation}
-Now with
+thus, the expression for $dF/dx$ above means
 \begin{equation}
-z_k=\sum_j w_{jk} a_j,
+\frac{dF}{dx}=\frac{df}{dx}\bigg\rvert_{g(x)}\frac{dg}{dx}\bigg\rvert_{h(x)}\frac{dh}{dx}.
 \end{equation}
-we can write
+This will guide us through an autodifferentiation example, where we'll show how the derivative of the output of a network can be found in parallel to the forward data pass through the network.
+
+Let's assign actual functions to the composite functions so we can check our work too. Here, $h(x)=Ax^2$, $g(x)=Bx$ and $f(x)=C\sin(x)$.  Thus
 \begin{equation}
-\frac{dz_k}{dz_1}=\sum_j w_{jk}\frac{da_j}{dz_1},
+F(x)=C\sin(ABx^2)
 \end{equation}
-which becomes
+and
 \begin{equation}
-\frac{dz_k}{dz_1}=\sum_j w_{jk}f'(w_{1j}a_1)w_{1j}\frac{da_1}{dz_1}.
+\frac{dF}{dx}=2ABCx\cos(ABx^2).
 \end{equation}
-Now
+
+\subsubsection{$dF/dx$ through autodifferentiation}
+
+To begin, let's examine the network shown in Fig~\ref{fig_autodiff_001}.
+
+\begin{figure}[h]
+\begin{center}
+\includegraphics[scale=0.25]{Figs/autodiff_001.png}
+\caption{The neural network to illustrate autodifferentiation to find $dF/dx$ given that $F(x)=f(g(h(x)))$.}
+\label{fig_autodiff_001}
+\end{center}
+\end{figure}
+
+To begin, see how $x$ feeds into $h(x)$, which feeds into $g(x)$, which feeds into $f(x)$, which feeds into $F(x)$.  If you examine the labels under each horizontal arrow, you'll see the results of the function evaluations, termed things like $h_{out}$, which is $h(x)$ evaluated at $x$, and $g_{out}$ which is $g(x)$ evaluated at $h_{out}$ or $g(h_{out})$.  You can see how $F(x)$ does indeed evaluate to $C\sin(ABx^2)$.
+
+Now what about the derivative? How can we find $dF/dx$ during that forward pass to find $F(x)$?  We'll use Calculus as our guide, which says that $dF/dx$ is the product of all of those derivatives, with each derivative evaluated at the previous function's output that feeds it.  Stated again,
 \begin{equation}
-\frac{da_1}{dz_1}=f'(z_1)
+\frac{dF}{dx}=\frac{df}{dx}\bigg\rvert_{g(x)}\frac{dg}{dx}\bigg\rvert_{h(x)}\frac{dh}{dx}.
+\end{equation}
+Let's start with $dh/dx$, which is to evaluated at $x$ (the input). At the left of Fig.~\ref{fig_autodiff_001}, we see that $dh/dx=2Ax$, and it's just evaluated at the input $x$, so $h_{out}=2Ax$.
+
+Next, let's look at $dg/dx$, which is to be evaluated at $h_{out}$.  Here, $dg/dx=B$, and evaluated at $h_{out}$, will just be $B$.
+
+Lastly, there's $df/dx$ evaluated at $g_{out}$.  Here, $df/dx=C\cos(x)$ and $g_{out}=ABx^2$, so $df/dx$ evaluated at $g_{out}$ is $df/dx=C\cos(ABx^2)$.
+
+Multiplying these derivatives (evaluated at their inputs) together, we'll get
+\begin{equation}
+2Ax\times B \times C\cos(ABx^2),
+\end{equation}
+which is $2ABCx\cos(ABx^2)$, which is indeed $dF/dx$.
+
+So autodifferentiation is a process of incrementally building up a network's derivative by evaluating derivatives piece-by-piece and evaluating them at the input value for the node they represent.  The last step is to multiply all of the evaluated derivatives together (but of course a running product can be kept as the forward pass proceeds). The multiplication is dictated by the chain-rule from Calculus.
+
+\subsection{The derivative for a conventional neural network}
+
+
+
+
+
+
+
+
+
+
+
+
+We know that the input of the network begins with the inputs $z_i$, which are activated at the input layer with
+\begin{equation}
+a_i=f(z_i).
+\end{equation}
+The derivative to send forward would then be
+\begin{equation}
+\label{pattern_start}
+\frac{da_i}{dz_i}=f'(z_i)\frac{dz_i}{dz_i}.
+\end{equation}
+So, during a forward pass, not only should we compute and store the activation of each neuron, but the derivative of the activation as well.  Also, note that $dz_i/dz_i=1$, but we'll hold on to it in our work here to point out a general pattern.
+
+An activation gets sent to the next forward layer in the network $j$ with an input
+\begin{equation}
+z_j=\sum_i w_{ij}a_i
+\end{equation}
+with its own activation
+\begin{equation}
+a_j=f(z_j).
+\end{equation}
+We can work $da_i/dz_i$ into the mix by differentiating this with respect to $a_j$ to get
+\begin{equation}
+\frac{da_j}{dz_i}=f'(z_j)\frac{dz_j}{dz_i}.
+\end{equation}
+From above,
+\begin{equation}
+\frac{dz_j}{dz_i}=\sum_i w_{ij}\frac{da_i}{dz_i}
 \end{equation}
 so
 \begin{equation}
-\frac{dz_k}{dz_1}=\sum_j w_{jk}f'(w_{1j}a_1)w_{1j}f'(z_1),
+\frac{da_j}{dz_i}=f'(z_j)\sum_i w_{ij}\frac{da_i}{dz_i}.
 \end{equation}
-which when rearranging gives
+Here we see the pattern continue that first emerged with Eqn.~\ref{pattern_start}: a derivative is propagated forward by the weighted sum of the derivatives from the backward layer multiplied by the derivative of the activation function evaluated at the input of a forward neuron.
+
+Let's repeat this one more time to propagate the derivatives to the output layer $k$.  As before we start with
+\begin{equation}
+z_k=\sum_j w_{jk}a_j
+\end{equation}
+with its own activation
+\begin{equation}
+a_k=f(z_k).
+\end{equation}
+As before
+\begin{equation}
+\frac{da_k}{dz_j}=f'(z_k)\frac{dz_k}{dz_j},
+\end{equation}
+which leads to
+\begin{equation}
+\frac{da_k}{dz_j}=f'(z_k)\sum_j w_{jk}\frac{da_j}{dz_j}.
+\end{equation}
+Again we see the same pattern for propagating derivatives forward. The $da_k/dz_j$ results are the derivatives of the network.  We can see how this is indeed true by combining the results.
+
+First, we take
+\begin{equation}
+\frac{da_k}{dz_j}=f'(z_k)\sum_j w_{jk}\frac{da_j}{dz_j}.
+\end{equation}
+and substitute 
+\begin{equation}
+\frac{da_j}{dz_j}=f'(z_j)\frac{dz_j}{dz_j}.
+\end{equation}
+
+
+
+
+
+
+
+
+
+With the single input neuron, the sum only has one term in it, so
+\begin{equation}
+z_j=w_{1j}{a_1},
+\end{equation}
+with activation
+\begin{equation}
+a_j=f(z_j).
+\end{equation}
+
+
+
+
+To find the derivative of the forward layer $j$, w'll differentiating $a_j$ with respect to the input $z_1$ to get
+\begin{equation}
+\label{dcore_idea}
+\frac{da_j}{dz_1}=f'(z_j)\frac{dz_j}{dz_1}.
+\end{equation}
+Now
+\begin{equation}
+\label{dz_j_by_dz_1}
+\frac{dz_j}{dz_1}=w_{1j}\frac{da_1}{dz_1}.
+\end{equation}
+Since 
+\begin{equation}
+a_1=f(z_1)
+\end{equation}
+and
+\begin{equation}
+\frac{da_1}{dz_1}=f'(z_1)\frac{dz_1}{dz_1}
+\end{equation}
+this becomes
+\begin{equation}
+\frac{dz_j}{dz_1}=w_{1j}f'(z_1)\frac{dz_1}{dz_1}].
+\end{equation}
+Note: We also pause here for a moment to stress that we are working forward in this section.  Putting brackets into the last equation, 
+\begin{equation}
+\label{dzdz_bracket}
+\frac{dz_j}{dz_1}=w_{1j}\left[f'(z_1)\frac{dz_1}{dz_1}\right],
+\end{equation}
+we see that a derivative of a neuron is propagated forward through the network by multiplying three things together: 1) the derivative of the input with respect to the needed variable (again $z_1$) 2) the derivative of activation function evaluated at the backward neuron's input ($z_1$), and weight connecting it to a forward neuron.
+
+Proceeding, the output of the network is $z_k$
+\begin{equation}
+z_k=\sum_j w_{jk} a_j,
+\end{equation}
+we can differentiate it to get 
+\begin{equation}
+\frac{dz_k}{dz_1}=\sum_j w_{jk}\frac{da_j}{dz_1},
+\end{equation}
+when combined with Eqn.~\ref{dcore_idea} becomes
+\begin{equation}
+\frac{dz_k}{dz_1}=\sum_j w_{jk}f'(z_j)\frac{dz_j}{dz_1}.
+\end{equation}
+With brackets, we get
+\begin{equation}
+\frac{dz_k}{dz_1}=\sum_j w_{jk}\left[f'(z_j)\frac{dz_j}{dz_1}\right],
+\end{equation}
+that shows a similar structure to Eqn.~\ref{dzdz_bracket}: a derivative is propagated forward by mutiplying it by 
+
+Now with Eqn~\ref{dz_j_by_dz_1} this becomes
+\begin{equation}
+\frac{dz_k}{dz_1}=\sum_j w_{jk}f'(z_j)w_{1j}\frac{da_1}{dz_1}.
+\end{equation}
+we get
+\begin{equation}
+\frac{dz_k}{dz_1}=\sum_j w_{jk}f'(z_j)w_{1j}f'(z_1)\frac{dz_1}{dz_1},
+\end{equation}
+which when rearranging and using $z_j=w_{1j}a_1$ and $a_1=f(z_1)$ we get
 \begin{equation}
 \frac{dz_k}{dz_1}=f'(z_1)\sum_j w_{1j} w_{jk}f'(w_{1j}f(z_1)),
 \end{equation}

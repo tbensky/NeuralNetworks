@@ -189,8 +189,8 @@ class neural_net:
         return self.NN[layer]
 
 
-nn = neural_net(    input_neuron_count=4,
-                    output_neuron_count = 3,
+nn = neural_net(    input_neuron_count=1,
+                    output_neuron_count = 1,
                     hidden_neuron_count=[3,4],
                     learning_rate=3
                 )
