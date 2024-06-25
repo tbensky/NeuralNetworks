@@ -71,7 +71,7 @@ def run_test():
 nn = neural_net.neural_net(
             input_neuron_count=1,
             output_neuron_count=1,
-            hidden_neuron_count=[40,35,25,20,15],
+            hidden_neuron_count=[128,128],
             learning_rate=20,
             init_neuron_bias=0.01
             )

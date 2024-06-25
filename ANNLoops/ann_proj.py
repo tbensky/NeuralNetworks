@@ -10,20 +10,20 @@ import math
 nn = neural_net.neural_net(
             input_neuron_count=1,
             output_neuron_count=4,
-            hidden_neuron_count=[20,10],
+            hidden_neuron_count=[128,128],
             learning_rate=0.1,
             init_neuron_bias=0.01
             )
 
 #t,x,y,vx,vy
 
-v0=30
-dmax=25
+vscale=30
+dscale=25
 pairs = [
-    [[0.15],[1.505320908/dmax,4.024230274/dmax,9.81936043/v0,25.49973351/v0]],
-    [[0.3],[2.948769254/dmax,7.661012594/dmax,9.43427925/v0,23.01909416/v0]],
-    [[0.5],[4.790417472/dmax,11.95657049/dmax,8.994238571/v0,19.97982246/v0]],
-    [[1.0],[9.068584899/dmax,20.24294006/dmax,8.176363485/v0,13.35860991/v0]]
+    [[0.15],[1.505320908/dscale,4.024230274/dscale,9.81936043/vscale,25.49973351/vscale]],
+    [[0.3],[2.948769254/dscale,7.661012594/dscale,9.43427925/vscale,23.01909416/vscale]],
+    [[0.5],[4.790417472/dscale,11.95657049/dscale,8.994238571/vscale,19.97982246/vscale]],
+    [[1.0],[9.068584899/dscale,20.24294006/dscale,8.176363485/vscale,13.35860991/vscale]]
 ]
 
 
@@ -48,13 +48,13 @@ while True:
         out = nn.forward(input)
         #format of out: out[0]=x, out[1]=y, out[2]=vx, out[3]=vy
         L = L + 0.5 * sum([(out[i] - output[i])**2 for i in range(len(output))])
-        vx = out[2] * v0
-        vy = out[3] * v0
-        v = math.sqrt(vx**2+vy**2)
+        vx = out[2] * vscale
+        vy = out[3] * vscale
+        v = math.sqrt(vx**2 + vy**2)
         deriv = nn.get_deriv()
-        xpp = deriv['app'][0] * dmax
-        ypp = deriv['app'][1] * dmax
-        C = nn.W(0,0,0)
+        xpp = deriv['app'][0] * dscale
+        ypp = deriv['app'][1] * dscale
+        C = 0.0 #nn.W(0,0,0)
         g = 9.8
         L = L + (xpp - C*v*vx)**2
         L = L + (ypp - (g + C*v*vy))**2
