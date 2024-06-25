@@ -10,7 +10,7 @@ import math
 nn = neural_net.neural_net(
             input_neuron_count=1,
             output_neuron_count=4,
-            hidden_neuron_count=[10,5],
+            hidden_neuron_count=[20,10],
             learning_rate=0.1,
             init_neuron_bias=0.01
             )
@@ -49,15 +49,15 @@ while True:
         #format of out: out[0]=x, out[1]=y, out[2]=vx, out[3]=vy
         L = L + 0.5 * sum([(out[i] - output[i])**2 for i in range(len(output))])
         vx = out[2] * v0
-        vy = out[2] * v0
+        vy = out[3] * v0
         v = math.sqrt(vx**2+vy**2)
         deriv = nn.get_deriv()
         xpp = deriv['app'][0] * dmax
         ypp = deriv['app'][1] * dmax
         C = nn.W(0,0,0)
         g = 9.8
-        L = L + (xpp - C*v*out[2])**2
-        L = L + (ypp - (-g - C*v*out[3]))**2
+        L = L + (xpp - C*v*vx)**2
+        L = L + (ypp - (g + C*v*vy))**2
         nn.backward(output)
     
     #now, actually adjust the weights and biases
