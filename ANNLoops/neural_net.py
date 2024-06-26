@@ -17,18 +17,21 @@ class neural_net:
         self.build_nn()
 
     def activate(self,x):
-        return 1/(1+math.exp(-x))
+        #return 1/(1+math.exp(-x))
+        return math.tanh(x)
 
     def activatep(self,x):
-        return self.activate(x) * (1.0-self.activate(x))
+        #return self.activate(x) * (1.0-self.activate(x))
+        return (1.0/math.cosh(x))**2
 
     def activatepp(self,x):
-        a = 2 * math.exp(-2 * x)
-        b = 1 + math.exp(-x)
-        c = b**3
-        d = math.exp(-x)
-        e = b**2
-        return a/c-d/e
+        # a = 2 * math.exp(-2 * x)
+        # b = 1 + math.exp(-x)
+        # c = b**3
+        # d = math.exp(-x)
+        # e = b**2
+        # return a/c-d/e
+        return -2.0 * self.activatep(x) * self.activate(x)
 
 
     def clear_dw(self):

@@ -44,7 +44,7 @@ def run_test():
             input_neuron_count=1,
             output_neuron_count=1,
             #hidden_neuron_count=[40,35,25,20,15],
-            hidden_neuron_count=[2,2],
+            hidden_neuron_count=[40,40,40,40],
             learning_rate=0.1,
             init_neuron_bias=0.01
             )
@@ -71,8 +71,8 @@ def run_test():
 nn = neural_net.neural_net(
             input_neuron_count=1,
             output_neuron_count=1,
-            hidden_neuron_count=[25,25],
-            learning_rate=20,
+            hidden_neuron_count=[40,40,40],
+            learning_rate=0.1,
             init_neuron_bias=0.01
             )
 
@@ -115,8 +115,6 @@ pairs = [
         [[0.9],[0.973848]],
         [[0.95],[0.9463]]
 ]
-
-[0.12, 0.27, 0.43, 0.63, 0.73, 0.83, 0.93]
 
 x_train = []
 y_train = []
