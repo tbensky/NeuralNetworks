@@ -12,7 +12,7 @@ class neural_net(nn.Module):
         self.layer1 = torch.nn.Linear(input_neuron_count, hidden_neuron_count)
         self.relu = torch.nn.Sigmoid()
         self.layer2 = torch.nn.Linear(hidden_neuron_count, output_neuron_count)
-
+\
     def forward(self,x):
         x = self.layer1(x)
         x = self.relu(x)

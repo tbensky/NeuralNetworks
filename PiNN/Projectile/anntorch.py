@@ -12,7 +12,7 @@ class neural_net(nn.Module):
         super(neural_net,self).__init__()
 
         #tanh works best for this
-        self.activation = torch.nn.Tanh() 
+        self.activation = torch.nn.Sigmoid() 
         
         #6 layers seems about right
         self.layer1 = torch.nn.Linear(input_neuron_count, hidden_neuron_count)
@@ -24,6 +24,7 @@ class neural_net(nn.Module):
 
 
     def forward(self,x):
+
         x = self.layer1(x)
         x = self.activation(x)
         x = self.layer2(x)
@@ -37,35 +38,58 @@ class neural_net(nn.Module):
         x = self.layer6(x)
 
         return x
+    
+    def get_weight(self):
+        return self.layer1.weight[0].item()
+
+    def compute_ux(self,x_in):
+        return torch.autograd.functional.jacobian(self, x_in, create_graph=True)
+
+    def L(self,data,outputs,targets):
+        #data_loss = torch.mean((outputs-targets)**2)
+        data_loss = torch.sqrt(torch.sum((outputs-targets)**2))
+
+        phys_loss = 0.0
+        g = 9.8
+
+        #https://stackoverflow.com/questions/64988010/getting-the-outputs-grad-with-respect-to-the-input
+        for x_in in data:
+            y_out = self.forward(x_in)
+            u_x = self.compute_ux(x_in) #torch.autograd.functional.jacobian(self, x_in, create_graph=True)
+            u_xx = torch.autograd.functional.jacobian(self.compute_ux, x_in,create_graph=True)
+            
+            vx = y_out[2]
+            vy = y_out[3]
+            v = torch.sqrt(vx*vx+vy*vy)
+         
+            C = self.get_weight()
+
+            phys_loss += (u_xx[0] - C*v*vx)**2 + (u_xx[1] - g - C*v*vy)**2
+         
+      
+        phys_loss = torch.sqrt(phys_loss)
+        #return data_loss
+        #return phys_loss
+        #return torch.add(data_loss,phys_loss)
+        return data_loss + phys_loss
+
 
 #fewer hidden neurons make ypp oscillate about exact derivative
-ann = neural_net(input_neuron_count=1,hidden_neuron_count=35,output_neuron_count=1)
+ann = neural_net(input_neuron_count=1,hidden_neuron_count=50,output_neuron_count=4)
 optimizer = optim.SGD(ann.parameters(),lr=0.05)
-loss_fn = nn.MSELoss()
+loss_fn = ann.L
+#loss_fn = nn.MSELoss()
 
 
+#projecile data with drag
+#t,x,y,vx,vy data
 pairs = [
-        [[0.01],[0.0099833]],
-        [[0.05],[0.0998334]],
-        [[0.1],[0.198669]],
-        [[0.15],[0.29552]],
-        [[0.2],[0.389418]],
-        [[0.25],[0.479426]],
-        [[0.3],[0.564642]],
-        [[0.35],[0.644218]],
-        [[0.4],[0.717356]],
-        [[0.45],[0.783327]],
-        [[0.5],[0.841471]],
-        [[0.55],[0.891207]],
-        [[0.6],[0.932039]],
-        [[0.65],[0.963558]],
-        [[0.7],[0.98545]],
-        [[0.75],[0.997495]],
-        [[0.8],[0.999574]],
-        [[0.85],[0.991665]],
-        [[0.9],[0.973848]],
-        [[0.95],[0.9463]]
+    [[0.15],[1.505320908,4.024230274,9.81936043,25.49973351]],
+    [[0.3],[2.948769254,7.661012594,9.43427925,23.01909416]],
+    [[0.5],[4.790417472,11.95657049,8.994238571,19.97982246]],
+    [[1.0],[9.068584899,20.24294006,8.176363485,13.35860991]]
 ]
+
 
 #https://stackoverflow.com/questions/41924453/pytorch-how-to-use-dataloaders-for-custom-datasets
 inputs = []
@@ -74,7 +98,7 @@ for (input,target) in pairs:
     inputs.append(input)
     targets.append(target)
 
-inputs = torch.tensor(inputs,dtype=torch.float32)
+inputs = torch.tensor(inputs,dtype=torch.float32,requires_grad=True)
 target = torch.tensor(targets,dtype=torch.float32)
 
 train = TensorDataset(inputs, target)
@@ -85,7 +109,7 @@ while True:
     loss_total = 0.0
     for (data,target) in train_loader:
         out = ann(data)
-        loss = loss_fn(out,target)
+        loss = loss_fn(data,out,target)
         loss.backward()
         optimizer.step()
         optimizer.zero_grad()
@@ -96,13 +120,32 @@ while True:
     epoch += 1
 
     #need to train down to 1e-5 for ypp to work best
-    if loss_total < 1e-5:
+    if loss_total < 1e-3:
         break
 
-
-
 x_train = []
+y_train = []
+
+for out in target:
+    x_train.append(out[0])
+    y_train.append(out[1])
+
+ts = [x/10. for x in range(0,100,1)]
+x_nn = []
 y_nn = []
+for t_raw in ts:
+    t = torch.tensor([t_raw],requires_grad = True)
+    y = ann.forward(t)
+    x_nn.append(y[0].item())
+    y_nn.append(y[1].item())
+
+plt.plot(x_nn,y_nn,'.')
+plt.plot(x_train,y_train,'o')
+plt.xlabel("x (m)")
+plt.ylabel("y (m)")
+plt.show()
+
+exit()
 dy_nn = []
 dyy_nn = []
 for x_raw in inputs:
@@ -122,15 +165,15 @@ for y in targets:
     y_train.append(y)
 
 
-plt.plot(x_train,y_nn)
-
 y_cos = list(map(lambda x: 2.0*math.cos(2*x),x_train))
 y_dsin =  list(map(lambda x: -4.0*math.sin(2*x),x_train))
-plt.plot(x_train,y_train,label='y_train')
-plt.plot(x_train,y_nn,label='y_nn')
-plt.plot(x_train,y_cos,label='2cos(2x)')
-plt.plot(x_train,y_dsin,label='-4sin(2x)')
-plt.plot(x_train,dy_nn,label='dy_nn')
-plt.plot(x_train,dyy_nn,label='dyy_nn')
+plt.plot(x_train,y_train,'o',label='$y_{train}$')
+plt.plot(x_train,y_nn,'x',label='$y_{nn}$')
+plt.plot(x_train,dy_nn,'o',label="$y_{nn}'$")
+plt.plot(x_train,dyy_nn,'o',label="$y_{nn}''$")
+plt.plot(x_train,y_cos,label='$2\cos(2x)$')
+plt.plot(x_train,y_dsin,label='$-4\sin(2x)$')
+plt.xlabel("t")
+plt.ylabel("y, y' or y''")
 plt.legend()
 plt.show()
