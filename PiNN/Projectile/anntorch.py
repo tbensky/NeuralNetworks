@@ -12,12 +12,12 @@ class neural_net(nn.Module):
         super(neural_net,self).__init__()
 
         #tanh works best for this
-        self.activation = torch.nn.Sigmoid() 
+        self.activation = torch.nn.Tanh() 
         
         #6 layers seems about right
         self.layer1 = torch.nn.Linear(input_neuron_count, hidden_neuron_count)
-        self.layer2 = torch.nn.Linear(hidden_neuron_count, hidden_neuron_count)
-        self.layer3 = torch.nn.Linear(hidden_neuron_count, output_neuron_count) #hidden_neuron_count)
+        self.layer2 = torch.nn.Linear(hidden_neuron_count, output_neuron_count)#hidden_neuron_count)
+        #self.layer3 = torch.nn.Linear(hidden_neuron_count, output_neuron_count) #hidden_neuron_count)
         #self.layer4 = torch.nn.Linear(hidden_neuron_count, hidden_neuron_count)
         #self.layer5 = torch.nn.Linear(hidden_neuron_count, hidden_neuron_count)
         #self.layer6 = torch.nn.Linear(hidden_neuron_count, output_neuron_count)
@@ -28,8 +28,8 @@ class neural_net(nn.Module):
         x = self.layer1(x)
         x = self.activation(x)
         x = self.layer2(x)
-        x = self.activation(x)
-        x = self.layer3(x)
+        #x = self.activation(x)
+        #x = self.layer3(x)
         # x = self.activation(x)
         # x = self.layer4(x)
         # x = self.activation(x)
@@ -44,41 +44,6 @@ class neural_net(nn.Module):
 
     def compute_ux(self,x_in):
         return torch.autograd.functional.jacobian(self, x_in, create_graph=True)
-
-    def Lphysics(self,data,outputs,targets):
-        phys_loss = 0.0
-        g = 9.8
-
-        #https://stackoverflow.com/questions/64988010/getting-the-outputs-grad-with-respect-to-the-input
-        #https://discuss.pytorch.org/t/first-and-second-derivates-of-the-output-with-respect-to-the-input-inside-a-loss-function/99757
-        for x_in in data:
-            y_out = self.forward(x_in)
-
-            #u_x = torch.autograd.grad(y_out, x_in, grad_outputs=torch.ones_like(y_out), create_graph=True, retain_graph=True)
-            #print(u_x)
-            #u_xx = torch.autograd.grad(u_x, x_in, grad_outputs=torch.ones_like(u_x[0]), create_graph=True, retain_graph=True)
-            #print(u_xx)
-            
-            
-            u_x = self.compute_ux(x_in) #torch.autograd.functional.jacobian(self, x_in, create_graph=True) 
-            u_xx = torch.autograd.functional.jacobian(self.compute_ux, x_in,create_graph=True)
-        
-            vx = y_out[2]
-            vy = y_out[3]
-            v = torch.sqrt(vx*vx+vy*vy)
-         
-            C = 0.01 #self.get_weight()
-
-            dx = C * v * vx
-            dy = C * v * vy
-            phys_loss += (u_xx[0] - dx)**2 + (u_xx[1] - g - dy)**2
-      
-        phys_loss = torch.sqrt(phys_loss)
-        return phys_loss
-
-    def Ldata(self,data,outputs,targets):
-        return torch.mean((outputs-targets)**2)
-        #return torch.sqrt(torch.sum((outputs-targets)**2))
 
     def L(self,data,outputs,targets):
         data_loss = torch.mean((outputs-targets)**2)
@@ -106,7 +71,7 @@ class neural_net(nn.Module):
             vy = y_out[3]
             v = torch.sqrt(vx*vx+vy*vy)
          
-            C = 0.01 #self.get_weight()
+            C = self.get_weight()
 
             dx = C * v * vx
             dy = C * v * vy
@@ -131,8 +96,8 @@ def dump_results():
             f.write(f"{y[0].item()},{y[1].item()}\n")
 
 #fewer hidden neurons make ypp oscillate about exact derivative
-ann = neural_net(input_neuron_count=1,hidden_neuron_count=25,output_neuron_count=4)
-optimizer = optim.SGD(ann.parameters(),lr=0.1)
+ann = neural_net(input_neuron_count=1,hidden_neuron_count=50,output_neuron_count=4)
+optimizer = optim.SGD(ann.parameters(),lr=0.001)
 #loss_fn = nn.MSELoss()
 
 
@@ -142,8 +107,10 @@ pairs = [
     [[0.15],[1.505320908,4.024230274,9.81936043,25.49973351]],
     [[0.3],[2.948769254,7.661012594,9.43427925,23.01909416]],
     [[0.5],[4.790417472,11.95657049,8.994238571,19.97982246]],
-    [[1.0],[9.068584899,20.24294006,8.176363485,13.35860991]]
+    [[1.0],[9.068584899,20.24294006,8.176363485,13.35860991]],
+    [[7.0],[34.0088771,0.827816308,2.864402605,-28.55554438]]
 ]
+   
 
 
 #https://stackoverflow.com/questions/41924453/pytorch-how-to-use-dataloaders-for-custom-datasets
