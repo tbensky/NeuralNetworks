@@ -17,10 +17,10 @@ class neural_net(nn.Module):
         #6 layers seems about right
         self.layer1 = torch.nn.Linear(input_neuron_count, hidden_neuron_count)
         self.layer2 = torch.nn.Linear(hidden_neuron_count, hidden_neuron_count)
-        self.layer3 = torch.nn.Linear(hidden_neuron_count, hidden_neuron_count)
-        self.layer4 = torch.nn.Linear(hidden_neuron_count, hidden_neuron_count)
-        self.layer5 = torch.nn.Linear(hidden_neuron_count, hidden_neuron_count)
-        self.layer6 = torch.nn.Linear(hidden_neuron_count, output_neuron_count)
+        self.layer3 = torch.nn.Linear(hidden_neuron_count, output_neuron_count) #hidden_neuron_count)
+        #self.layer4 = torch.nn.Linear(hidden_neuron_count, hidden_neuron_count)
+        #self.layer5 = torch.nn.Linear(hidden_neuron_count, hidden_neuron_count)
+        #self.layer6 = torch.nn.Linear(hidden_neuron_count, output_neuron_count)
 
 
     def forward(self,x):
@@ -30,12 +30,12 @@ class neural_net(nn.Module):
         x = self.layer2(x)
         x = self.activation(x)
         x = self.layer3(x)
-        x = self.activation(x)
-        x = self.layer4(x)
-        x = self.activation(x)
-        x = self.layer5(x)
-        x = self.activation(x)
-        x = self.layer6(x)
+        # x = self.activation(x)
+        # x = self.layer4(x)
+        # x = self.activation(x)
+        # x = self.layer5(x)
+        # x = self.activation(x)
+        # x = self.layer6(x)
 
         return x
     
@@ -90,7 +90,7 @@ class neural_net(nn.Module):
         #https://stackoverflow.com/questions/64988010/getting-the-outputs-grad-with-respect-to-the-input
         #https://discuss.pytorch.org/t/first-and-second-derivates-of-the-output-with-respect-to-the-input-inside-a-loss-function/99757
         #torch.tensor([t_raw],requires_grad = True)
-        for x_in in [torch.tensor([x],requires_grad=True) for x in [2.0,3.0,4.0,5.0,6.0,7.0,8.0,9.0,10.0]]:
+        for x_in in [torch.tensor([x],requires_grad=True) for x in [0.25,2.0,6.0,8.0,10.0]]:
             y_out = self.forward(x_in)
 
             #u_x = torch.autograd.grad(y_out, x_in, grad_outputs=torch.ones_like(y_out), create_graph=True, retain_graph=True)
@@ -106,7 +106,7 @@ class neural_net(nn.Module):
             vy = y_out[3]
             v = torch.sqrt(vx*vx+vy*vy)
          
-            C = self.get_weight()
+            C = 0.01 #self.get_weight()
 
             dx = C * v * vx
             dy = C * v * vy
