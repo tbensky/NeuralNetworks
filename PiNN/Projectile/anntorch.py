@@ -71,7 +71,7 @@ class neural_net(nn.Module):
             vy = y_out[3]
             v = torch.sqrt(vx*vx+vy*vy)
          
-            C = self.get_weight()
+            C = 0.01 #self.get_weight()
 
             dx = C * v * vx
             dy = C * v * vy
