@@ -110,7 +110,7 @@ class neural_net(nn.Module):
 
             dx = C * v * vx
             dy = C * v * vy
-            phys_loss += (u_xx[0] - dx)**2 + (u_xx[1] - g - dy)**2
+            phys_loss += (u_xx[0] + dx)**2 + (u_xx[1] + g + dy)**2
       
         phys_loss = torch.sqrt(phys_loss)
         #return data_loss
@@ -118,9 +118,20 @@ class neural_net(nn.Module):
         #return torch.add(data_loss,phys_loss)
         return data_loss + phys_loss
 
+def dump_results():
+    ts = [x/10. for x in range(0,200,1)]
+    x_nn = []
+    y_nn = []
+
+    with open("results.csv","w") as f:
+        f.write("x,y\n")
+        for t_raw in ts:
+            t = torch.tensor([t_raw],requires_grad = True)
+            y = ann.forward(t)
+            f.write(f"{y[0].item()},{y[1].item()}\n")
 
 #fewer hidden neurons make ypp oscillate about exact derivative
-ann = neural_net(input_neuron_count=1,hidden_neuron_count=50,output_neuron_count=4)
+ann = neural_net(input_neuron_count=1,hidden_neuron_count=25,output_neuron_count=4)
 optimizer = optim.SGD(ann.parameters(),lr=0.1)
 #loss_fn = nn.MSELoss()
 
@@ -162,6 +173,8 @@ while True:
 
     if epoch % 1000 == 0:
         print(f"epoch={epoch},loss={loss_total}")
+        dump_results()
+        
     epoch += 1
 
     #need to train down to 1e-5 for ypp to work best
