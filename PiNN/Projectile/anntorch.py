@@ -6,6 +6,8 @@ from torchvision.transforms import ToTensor
 import json
 import matplotlib.pyplot as plt
 import math
+import pandas as pd
+import random
 
 class neural_net(nn.Module):
     def __init__(self,input_neuron_count=1,hidden_neuron_count=10,output_neuron_count=1,learning_rate=0.1,bias_rate=0.1,init_neuron_bias=0.01):
@@ -16,11 +18,10 @@ class neural_net(nn.Module):
         
         #6 layers seems about right
         self.layer1 = torch.nn.Linear(input_neuron_count, hidden_neuron_count)
-        self.layer2 = torch.nn.Linear(hidden_neuron_count, output_neuron_count)#hidden_neuron_count)
-        #self.layer3 = torch.nn.Linear(hidden_neuron_count, output_neuron_count) #hidden_neuron_count)
-        #self.layer4 = torch.nn.Linear(hidden_neuron_count, hidden_neuron_count)
-        #self.layer5 = torch.nn.Linear(hidden_neuron_count, hidden_neuron_count)
-        #self.layer6 = torch.nn.Linear(hidden_neuron_count, output_neuron_count)
+        self.layer2 = torch.nn.Linear(hidden_neuron_count, output_neuron_count)
+
+        self.C = nn.Parameter(torch.rand(1), requires_grad=True)
+        #self.C.clamp(0.01,1)
 
 
     def forward(self,x):
@@ -28,19 +29,17 @@ class neural_net(nn.Module):
         x = self.layer1(x)
         x = self.activation(x)
         x = self.layer2(x)
-        #x = self.activation(x)
-        #x = self.layer3(x)
-        # x = self.activation(x)
-        # x = self.layer4(x)
-        # x = self.activation(x)
-        # x = self.layer5(x)
-        # x = self.activation(x)
-        # x = self.layer6(x)
 
         return x
+
+    def getC(self):
+        return self.C.item()
+
+    def clampC(self):
+        self.C.clamp(0.01,1)
     
     def get_weight(self):
-        return self.layer1.weight[0].item()
+        return self.layer2.weight[3][3].item()
 
     def compute_ux(self,x_in):
         return torch.autograd.functional.jacobian(self, x_in, create_graph=True)
@@ -71,7 +70,8 @@ class neural_net(nn.Module):
             vy = y_out[3]
             v = torch.sqrt(vx*vx+vy*vy)
          
-            C = 0.01 #self.get_weight()
+            #fit is through data points but very strange w/C=weight
+            C =  0.01 #self.get_weight() #self.getC() # 0.01 #self.get_weight()
 
             dx = C * v * vx
             dy = C * v * vy
@@ -83,7 +83,7 @@ class neural_net(nn.Module):
         #return torch.add(data_loss,phys_loss)
         return data_loss + phys_loss
 
-def dump_results():
+def dump_results(fcount,loss):
     ts = [x/10. for x in range(0,200,1)]
     x_nn = []
     y_nn = []
@@ -95,11 +95,29 @@ def dump_results():
             y = ann.forward(t)
             f.write(f"{y[0].item()},{y[1].item()}\n")
 
-#fewer hidden neurons make ypp oscillate about exact derivative
+    x_data = []
+    y_data = []
+    for (input,output) in pairs:
+        x_data.append(output[0])
+        y_data.append(output[1])
+
+    df = pd.read_csv("results.csv")
+    plt.clf()
+    plt.plot(df['x'],df['y'])
+    plt.plot(x_data,y_data,'o')
+    plt.xlabel("x (m)")
+    plt.ylabel("y (m)")
+    plt.title(f"(phys+data), loss={loss:.2f}, C={ann.get_weight():.2f}")
+    #plt.savefig(f"Evolve/frame_{fcount:03d}.png",dpi=300)
+    plt.draw()
+    plt.pause(0.01)
+
+
+
+#for best drag training: use 10-15 hidden_neuron_count for good training, lr=0.01
 ann = neural_net(input_neuron_count=1,hidden_neuron_count=50,output_neuron_count=4)
 optimizer = optim.SGD(ann.parameters(),lr=0.001)
 #loss_fn = nn.MSELoss()
-
 
 #projecile data with drag
 #t,x,y,vx,vy data
@@ -130,6 +148,7 @@ train_loader = DataLoader(train, batch_size=len(pairs), shuffle=False)
 
 epoch = 0
 loss_fn = ann.L
+frame_count = 0
 while True:
     loss_total = 0.0
     for (data,target) in train_loader:
@@ -139,10 +158,12 @@ while True:
         optimizer.step()
         optimizer.zero_grad()
         loss_total += loss.item()
+        ann.clampC()
 
-    if epoch % 1000 == 0:
+    if epoch % 100 == 0:
         print(f"epoch={epoch},loss={loss_total}")
-        dump_results()
+        dump_results(frame_count,loss_total)
+        frame_count += 1
         
     epoch += 1
 
@@ -174,37 +195,5 @@ plt.plot(x_train,y_train,'o')
 plt.xlabel("x (m)")
 plt.ylabel("y (m)")
 plt.show()
-exit()
 
 
-dy_nn = []
-dyy_nn = []
-for x_raw in inputs:
-    x = torch.tensor([x_raw],requires_grad = True)
-    y = ann.forward(x)
-    x_train.append(x.item())
-    y_nn.append(y.item())
-    yp = torch.autograd.grad(y,x,create_graph=True,grad_outputs = torch.ones_like(y),allow_unused = True,retain_graph = True)
-    ypp = torch.autograd.grad(yp,x,create_graph=True,grad_outputs = torch.ones_like(y),allow_unused = True,retain_graph = True)
-
-    dy_nn.append(yp[0].item())
-    dyy_nn.append(ypp[0].item())
-  
-
-y_train = []
-for y in targets:
-    y_train.append(y)
-
-
-y_cos = list(map(lambda x: 2.0*math.cos(2*x),x_train))
-y_dsin =  list(map(lambda x: -4.0*math.sin(2*x),x_train))
-plt.plot(x_train,y_train,'o',label='$y_{train}$')
-plt.plot(x_train,y_nn,'x',label='$y_{nn}$')
-plt.plot(x_train,dy_nn,'o',label="$y_{nn}'$")
-plt.plot(x_train,dyy_nn,'o',label="$y_{nn}''$")
-plt.plot(x_train,y_cos,label='$2\cos(2x)$')
-plt.plot(x_train,y_dsin,label='$-4\sin(2x)$')
-plt.xlabel("t")
-plt.ylabel("y, y' or y''")
-plt.legend()
-plt.show()

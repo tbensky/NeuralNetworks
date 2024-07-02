@@ -21,8 +21,10 @@ for (input,output) in pairs:
     y_data.append(output[1])
 
 
+f = 0
 while True:
     df = pd.read_csv("results.csv")
     plt.plot(df['x'],df['y'])
     plt.plot(x_data,y_data,'o')
-    plt.show()
+    plt.savefig(f"Evolve/frame_{f:03d}.png",dpi=300)
+    #plt.show()
