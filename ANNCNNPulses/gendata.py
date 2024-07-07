@@ -7,17 +7,23 @@ SIZE = (HEIGHT*WIDTH)
 
 screen = ['0'] * SIZE
 
+def cls():
+    for row in range(HEIGHT):
+        for col in range(WIDTH):
+            screen[row*WIDTH+col] = '0'
+
+
 def plot(x,y,c):
     offset = (HEIGHT/2-y)*WIDTH + (WIDTH/2+x)
     if offset > 0 and offset < SIZE:
         screen[int(offset)] = c
 
 def plotbig(x,y,c):
-    plot(x,y,c)
+    #plot(x,y,c)
     
-    # for dx in range(-1,1):
-    #     for dy in range(-1,1):
-    #         plot(x+dx,y+dy,c)
+    for dx in range(-1,1):
+        for dy in range(-1,1):
+            plot(x+dx,y+dy,c)
 
 def dump():
     for row in range(HEIGHT):
@@ -59,18 +65,26 @@ def square(A,x0,width,offset):
     
     
 
-A = random.uniform(5,20)
-x0 = random.uniform(-30,30)
-sd = random.uniform(1,10)
-width = random.uniform(2,10)
-offset = random.uniform(-30,30)
+A = 20 #random.uniform(5,20)
+x0 = 0 #random.uniform(-30,30)
+sd = random.uniform(1,20)
+width = random.uniform(2,25)
+offset = 0 # random.uniform(-30,30)
 
 #square(A,x0,width,offset)
 
+
 print("[") # open json
 
-N = 50
+N = 100
 for i in range(0,N):
+    cls()
+    A = 20 #random.uniform(5,20)
+    x0 = 0 #random.uniform(-30,30)
+    sd = random.uniform(1,20)
+    width = random.uniform(2,25)
+    offset = 0 # random.uniform(-30,30)
+
     n = random.randint(0,1)
 
     if n == 0:
@@ -79,7 +93,7 @@ for i in range(0,N):
     if n == 1:
         square(A,x0,width,offset)
         output = "0,1,0"
-    
+
     dump_pair(output)
     if i < N-1:
         print(",")
