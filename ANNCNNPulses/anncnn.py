@@ -200,11 +200,16 @@ while True:
         break
 
 print(f"epoch={epoch},loss={loss_total}")
-for i in range(ann.get_conv_layer_count()):
-    plt.subplot(8,4,i+1)
-    plt.axis('off')
-    w = ann.get_conv1()[i][0]
-    w = w.detach().numpy()
-    plt.imshow(w)
+kernels = ann.conv1.weight.detach().clone()
+       
+# normalize to (0,1) range so that matplotlib
+# can plot them
+kernels = kernels - kernels.min()
+kernels = kernels / kernels.max()
+filter_img =utils.make_grid(kernels, nrow = 10)
+# change ordering since matplotlib requires images to 
+# be (H, W, C)
+plt.imshow(filter_img.permute(1, 2, 0))
 plt.savefig(f"plots/conv_{epoch}.png",dpi=300)
 plt.close()
+
