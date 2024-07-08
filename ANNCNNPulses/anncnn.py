@@ -160,7 +160,7 @@ while True:
         loss_total += loss.item()
 
     
-    if epoch % 1 == 0:
+    if epoch % 1000 == 0:
         plt.tight_layout()
         print(f"epoch={epoch},loss={loss_total}")
 
