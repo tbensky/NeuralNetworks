@@ -167,8 +167,8 @@ targets = F.normalize(targets)
 
 print(len(targets))
 
-inputs.to(device)
-targets.to(device)
+inputs = inputs.to(device)
+targets = targets.to(device)
 
 #train = MyDataset(inputs,targets)
 train = TensorDataset(inputs,targets)
