@@ -104,6 +104,10 @@ class channel1(nn.Module):
         return loss
 
 
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+print(device)
+exit()
+
 ann = channel1() #neural_net()
 
 
