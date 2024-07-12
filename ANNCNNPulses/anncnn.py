@@ -106,7 +106,8 @@ class channel1(nn.Module):
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-ann = channel1().to(device) #neural_net()
+ann = channel1() #neural_net()
+ann.to(device)
 
 
 ########################
