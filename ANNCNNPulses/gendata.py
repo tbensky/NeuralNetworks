@@ -12,6 +12,11 @@ def cls():
         for col in range(WIDTH):
             screen[row*WIDTH+col] = '0'
 
+def clip_data(x):
+    if x == '1':
+        return 0.8
+    return 0.1
+
 
 def plot(x,y,c):
     offset = (HEIGHT/2-y)*WIDTH + (WIDTH/2+x)
@@ -35,9 +40,10 @@ def dump():
 def dump_pair(output):
     print("[[",end="")
     for i in range(SIZE-1):
-        print(f"{screen[i]},",end="")
-    print(f"{screen[i]}",end="")
-    print(f"],[{output}]",end="")
+        print(f"{clip_data(screen[i])},",end="")
+    print(f"{clip_data(screen[i])}",end="")
+    output = [clip_data(x) for x in output]
+    print(f"],{output}",end="")
     print("]",end="")
 
 
@@ -63,6 +69,16 @@ def square(A,x0,width,offset):
         plotbig(x0,y,'1')
         plotbig(x0+width,y,'1')
     
+def triangle(A,x0,width,offset):
+    x = -WIDTH/2
+    y = offset
+    m = 1.0
+    while x < WIDTH/2:
+        if x % int(width) == 0:
+            m *= -1
+        y += m
+        plotbig(x,y,'1')
+        x += 1
     
 
 A = 20 #random.uniform(5,20)
@@ -74,25 +90,31 @@ offset = 0 # random.uniform(-30,30)
 #square(A,x0,width,offset)
 
 
+
+
 print("[") # open json
+
 
 N = 100
 for i in range(0,N):
     cls()
-    A = 20 #random.uniform(5,20)
-    x0 = 0 #random.uniform(-30,30)
-    sd = random.uniform(1,20)
-    width = random.uniform(2,25)
+    A = random.uniform(5,50) #20
+    x0 = random.uniform(-30,30)
+    sd = random.uniform(1,10)
+    width = random.uniform(2,15)
     offset = 0 # random.uniform(-30,30)
 
-    n = random.randint(0,1)
+    n = random.randint(0,2)
 
     if n == 0:
         gauss(A,x0,sd)
-        output = "0,0,1"
+        output = [0,0,1]
     if n == 1:
         square(A,x0,width,offset)
-        output = "0,1,0"
+        output = [0,1,0]
+    if n == 2:
+        triangle(A,x0,width,offset)
+        output = [1,0,0]
 
     dump_pair(output)
     if i < N-1:
@@ -100,4 +122,6 @@ for i in range(0,N):
 
 
 print("\n]") # close json
+
+#print(f"gauss={ngauss}, square={nsquare}")
 
