@@ -105,10 +105,8 @@ class channel1(nn.Module):
 
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-print(device)
-exit()
 
-ann = channel1() #neural_net()
+ann = channel1().to(device) #neural_net()
 
 
 ########################
@@ -168,9 +166,13 @@ targets = F.normalize(targets)
 
 print(len(targets))
 
+inputs.to(device)
+targets.to(device)
+
 #train = MyDataset(inputs,targets)
 train = TensorDataset(inputs,targets)
 train_loader = DataLoader(train,shuffle=True) 
+
 
 os.system("rm plots/*.png")
 os.system("rm loss.csv")
