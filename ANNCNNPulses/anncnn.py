@@ -204,7 +204,7 @@ while True:
         plt.tight_layout()
     
         #https://stackoverflow.com/questions/55594969/how-to-visualise-filters-in-a-cnn-with-pytorch
-        kernels = ann.conv1.weight.detach().clone()      
+        kernels = ann.conv1.cpu().weight.detach().clone()      
         # normalize to (0,1) range so that matplotlib
         # can plot them
         kernels = kernels - kernels.min()
