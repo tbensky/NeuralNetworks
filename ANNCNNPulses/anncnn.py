@@ -9,60 +9,52 @@ from matplotlib import pyplot as plt
 from torchvision import utils
 import os
 import torch.nn.functional as F
+import time
 
-
-class neural_net(nn.Module):
+class Net(nn.Module):
     def __init__(self):
-        super(neural_net,self).__init__()
+        super(Net, self).__init__()
+        self.conv1 = nn.Conv2d(1, 32, 3, 1)
+        self.conv2 = nn.Conv2d(32, 64, 3, 1)
+        self.dropout1 = nn.Dropout(0.25)
+        self.dropout2 = nn.Dropout(0.5)
+        self.fc1 = nn.Linear(9216, 128)
+        self.fc2 = nn.Linear(128, 10)
 
-        self.conv1 = nn.Sequential(
-            nn.Conv2d(1,32,5,padding='same'),
-            nn.ReLU(),
-            nn.MaxPool2d(2),
-            )
-
-        self.conv2 = nn.Sequential(
-            nn.Conv2d(32,64,5,padding='same'),
-            nn.ReLU(),
-            nn.MaxPool2d(2)
-            )
-
-        self.fc1 = nn.Sequential(
-            nn.Flatten(),
-            nn.Linear(7*7*64,1024),
-            nn.Dropout(0.5),
-            nn.Linear(1024,3)
-            )
-
-    
-    def forward(self,x):
-        x = F.normalize(x)
+    def forward(self, x):
         x = self.conv1(x)
+        x = F.relu(x)
         x = self.conv2(x)
-        return self.fc1(x)
+        x = F.relu(x)
+        x = F.max_pool2d(x, 2)
+        x = self.dropout1(x)
+        x = torch.flatten(x, 1)
+        x = self.fc1(x)
+        x = F.relu(x)
+        x = self.dropout2(x)
+        x = self.fc2(x)
+        output = F.log_softmax(x, dim=1)
+        return output
+
 
 
 #https://discuss.pytorch.org/t/error-while-running-cnn-for-grayscale-image/598/2
-class channel1(nn.Module):
+class neural_net(nn.Module):
     def __init__(self):
-        super(channel1, self).__init__()
+        super(neural_net, self).__init__()
         self.conv_layer_count = 50
         self.K = 20
+
         self.conv1 = nn.Conv2d(in_channels=1, out_channels=self.conv_layer_count, kernel_size=self.K, stride=1, padding=0)
         self.relu1 = nn.ReLU()
         self.mp1 =  nn.MaxPool2d(2)
-        #self.conv2 = nn.Conv2d(32, 3, kernel_size=5, stride=1, padding=1)
-        self.conv2 = nn.Conv2d(in_channels=self.conv_layer_count, out_channels=1, kernel_size=self.K, bias=False)
+        self.conv2 = nn.Conv2d(in_channels=self.conv_layer_count, out_channels=1, kernel_size=self.K)
         self.relu2 = nn.ReLU()
         self.act = nn.Tanh()
-
-        self.fc1 = nn.Sequential(
-            nn.Flatten(),
-            #nn.Linear(8836,1024),
-            nn.Linear(10*10,1024),
-            nn.Dropout(0.25),
-            nn.Linear(1024,3)
-            )
+        self.dropout1 = nn.Dropout(0.25)
+        self.dropout2 = nn.Dropout(0.5)
+        self.fc1 = nn.Linear(10*10, 1024)
+        self.fc2 = nn.Linear(1024, 3)
 
     def forward(self, x):
         x = self.conv1(x)
@@ -80,10 +72,14 @@ class channel1(nn.Module):
         #print(x.size()) 
         #exit()
        
+        x = torch.flatten(x, 1)
         x = self.fc1(x)
+        x = self.dropout1(x)
+        x = self.act(x)
+        x = self.fc2(x)
         x = self.act(x)
 
-        x = F.normalize(x)
+        #x = F.normalize(x)
         return x
 
     def get_conv_layer_count(self):
@@ -95,19 +91,14 @@ class channel1(nn.Module):
     def get_conv1(self):
         return self.conv1.weight
 
-    def L(self,outputs,targets):
-        #print(f"outputs={outputs},targets={targets}")
-        #loss = torch.mean((outputs-targets)**2)
-        #loss = (torch.abs(out - target) < 0.001).float().sum()/len(target)
-        loss = torch.sqrt(torch.sum((outputs-F.normalize(targets))**2))
-        #print(loss)
-        return loss
+device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+if device == torch.device("cpu") and torch.backends.mps.is_available():
+    device = torch.device("mps")
 
 
-device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-
-ann = channel1() #neural_net()
+ann = neural_net()
 ann.to(device)
+
 
 
 ########################
@@ -134,6 +125,8 @@ with open("pairs.json","r") as f:
 
 #https://stackoverflow.com/questions/41924453/pytorch-how-to-use-dataloaders-for-custom-datasets
 #https://stackoverflow.com/questions/44429199/how-to-load-a-list-of-numpy-arrays-to-pytorch-dataset-loader
+#https://stackoverflow.com/questions/72808402/pytorch-identifying-batch-size-as-number-of-channels-in-conv2d-layer
+
 size = 100
 input_list = []
 target_list = []
@@ -160,19 +153,22 @@ targets_np = np.array(target_list)
 #get into tensor form. 
 #inputs.shape is [N,size,size] (N=3 of samples)
 inputs = torch.tensor(inputs_np,dtype=torch.float)
+print(inputs.shape)
 
 #target.shape is [N,1,3]
 targets = torch.tensor(targets_np,dtype=torch.float)
 targets = F.normalize(targets)
-
 print(len(targets))
+print(targets.shape)
+
 
 inputs = inputs.to(device)
 targets = targets.to(device)
 
 #train = MyDataset(inputs,targets)
 train = TensorDataset(inputs,targets)
-train_loader = DataLoader(train,shuffle=True) 
+
+train_loader = DataLoader(train,shuffle=True,batch_size=10)
 
 
 os.system("rm plots/*.png")
@@ -181,16 +177,20 @@ os.system("rm loss.csv")
 epoch = 0
 img_count = 0
 loss_track = []
+es = time.time()
 while True:
     loss_total = 0.0
 
     correct = 0
-    for (data,target) in train_loader:
+    #ann.to(device)
+    for data,target in train_loader:
+        data, target = data.to(device), target.to(device)
+        optimizer.zero_grad()
         out = ann(data)
         loss = loss_fn(out,target)
         loss.backward()
         optimizer.step()
-        optimizer.zero_grad()
+       
         loss_total += loss.item()
 
         count_correct = (torch.abs(out - target) < 0.01).float().sum()
@@ -199,7 +199,9 @@ while True:
     
     loss_track.append({"epoch": epoch,"loss": loss_total})
     if epoch % 5 == 0:
-        print(f"epoch={epoch},loss={loss_total}, correct={correct}")
+        ee = time.time()
+        print(f"epoch={epoch},loss={loss_total}, correct={correct}, time={ee-es} sec")
+        es = ee
     
         plt.tight_layout()
     
