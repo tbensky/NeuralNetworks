@@ -92,11 +92,12 @@ offset = 0 # random.uniform(-30,30)
 
 
 
+stats = {"gauss": 0, "square": 0, "triangle": 0}
 
 print("[") # open json
 
 
-N = 1000
+N = 10000
 for i in range(0,N):
     cls()
     A = random.uniform(5,50) #20
@@ -110,12 +111,15 @@ for i in range(0,N):
     if n == 0:
         gauss(A,x0,sd)
         output = [0,0,1]
+        stats['gauss'] += 1
     if n == 1:
         square(A,x0,width,offset)
         output = [0,1,0]
+        stats['square'] += 1
     if n == 2:
         triangle(A,x0,width,offset)
         output = [1,0,0]
+        stats['triangle'] += 1
 
     dump_pair(output)
     if i < N-1:
@@ -124,5 +128,4 @@ for i in range(0,N):
 
 print("\n]") # close json
 
-#print(f"gauss={ngauss}, square={nsquare}")
-
+print(stats)
