@@ -25,6 +25,7 @@ def plot(x,y,c):
 
 def plotbig(x,y,c):
     #plot(x,y,c)
+    #return
     
     for dx in range(-1,1):
         for dy in range(-1,1):
@@ -95,7 +96,7 @@ offset = 0 # random.uniform(-30,30)
 print("[") # open json
 
 
-N = 100
+N = 1000
 for i in range(0,N):
     cls()
     A = random.uniform(5,50) #20

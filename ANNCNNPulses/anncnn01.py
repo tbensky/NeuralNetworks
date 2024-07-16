@@ -80,7 +80,8 @@ class CustomData(Dataset):
         target = self.pairs[idx][1]
 
         ip = torch.tensor(input).view(100,100)
-        #add the channel dimension since conv2d wants [Channel H W]
+
+        #add the channel dimension since conv2d wants [Channels H W]
         ip = ip.unsqueeze(0)
 
         t = torch.tensor(target)
@@ -106,7 +107,7 @@ ann.to(device)
 
 #Seq01: first working one: lr=0.005, momentum=1.0, dropout=0.25, normalize output, K=20, conv_layer=50, CrossEntropyLoss
 
-optimizer = optim.SGD(ann.parameters(),lr=0.005,momentum=1.0)
+optimizer = optim.SGD(ann.parameters(),lr=0.001,momentum=1.0)
 
 
 #CrossEntropyLoss reveals curved sections
@@ -120,7 +121,7 @@ loss_fn = nn.CrossEntropyLoss()
 
 size = 100
 train = CustomData("pairs.json")
-train_loader = DataLoader(train, batch_size=20, shuffle=True)
+train_loader = DataLoader(train, batch_size=100, shuffle=True)
 
 os.system("rm plots/*.png")
 os.system("rm loss.csv")
@@ -146,8 +147,8 @@ while True:
 
         loss_total += loss.item()
 
-        count_correct = (torch.abs(out - target) < 0.01).float().sum()
-        if count_correct == 3:
+        correct_list = (torch.abs(out - target) < 0.01)
+        if correct_list == [True] * len(target):
             correct += 1
     
     loss_track.append({"epoch": epoch,"loss": loss_total})
@@ -160,6 +161,8 @@ while True:
     
         #https://stackoverflow.com/questions/55594969/how-to-visualise-filters-in-a-cnn-with-pytorch
         #kernels = ann.conv1.cpu().weight.detach().clone()   
+        #print(ann.state_dict)
+        #exit()
         kernels = ann.state_dict()['conv1.weight']
         kernels = kernels.cpu()
         # kernels = ann.conv1.weight.detach().clone()    
